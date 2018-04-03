@@ -1,4 +1,7 @@
 ﻿
+//console.log(timer.getTimeValues().toString());
+
+
 // Your code here!
 var canvas = document.querySelector('canvas');
 
@@ -49,6 +52,7 @@ var c = canvas.getContext('2d');
 //}
 const GRIDHEIGHT = 25;
 const GRIDWIDTH = 11;
+
 function Board() {
 
     this._gridHeight = 25;
@@ -164,21 +168,31 @@ function Board() {
 
 }
 
+function boardInit(width, height) {
+    let board = new Array(this._gridWidth);//creating the multidem array in javascript <3
+    for (let i = 0; i < this._boardCheck.length; i++) {
+        this._boardCheck[i] = new Array(this._gridHeight);
+    }
+}
 function Piece() {
+
     this._pieceType = undefined;//0===I , 1===T , 2===L , 3===J , 4===S , 5===Z , 6===BLOCK
     this._xPosition = undefined;// in relation to the main board
     this._yPosition = undefined;// in relation to the main board
     this._rotation = undefined;
     this._gridHeight = 25;
     this._gridWidth = 12;
-
+    this._isDownBlocked = false;
+    this._isLeftBlocked = false;
+    this._isRightBlocked = false;
+    this._isUpBlocked = false;
     this._boardCheck = new Array(this._gridWidth);//creating the multidem array in javascript <3
     for (let i = 0; i < this._boardCheck.length; i++) {
         this._boardCheck[i] = new Array(this._gridHeight);
     }
 
 
-
+    
     this.generateNewPiece = function () {
         let num = Math.floor(7 * Math.random());
 
@@ -190,6 +204,11 @@ function Piece() {
             }
         }
 
+        //reset collision
+        this._isDownBlocked = false;
+        this._isLeftBlocked = false;
+        this._isRightBlocked = false;
+        this._isUpBlocked = false;
 
 
         //0===I , 1===T , 2===L , 3===J , 4===S , 5===Z , 6===O
@@ -245,6 +264,9 @@ function Piece() {
 
 
     }
+    this.checkCollision = function () {
+
+    }
 }
 
 
@@ -269,6 +291,9 @@ function animate() {
 
     board.update();
     board.draw();
+
+
+    board.currentPiece.generateNewPiece();
 }
 
 animate();
