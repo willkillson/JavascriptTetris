@@ -61,11 +61,9 @@ function Board() {
     this._cellPadding = 1;
     this.isEmpty = true;//this will invoke a place piece function
     this.currentPiece = undefined;
+    this.command = undefined;//d,l,r,rr,rl,u
 
-
-
-    /////////////////MAIN BOARD
-
+    /////////////////MAIN BOARD Initialization 
     this._board = new Array(this._gridWidth);//creating the multidem array in javascript <3
     for (let i = 0; i < this._board.length; i++) {
         this._board[i] = new Array(this._gridHeight);
@@ -77,13 +75,6 @@ function Board() {
             this._board[i][j] = "empty";
         }
     }
-
-
-
-
-
-
-
     for (let i = 0; i < this._gridHeight; i++) {
         //////board set up
         //assigns boarder portions of _board array
@@ -94,7 +85,7 @@ function Board() {
             this._board[i][this._gridHeight - 1] = "boarder";
         }
     }
-
+    /////////////////MAIN BOARD Initialization
 
     this.update = function () {
         if (this.currentPiece === undefined) {
@@ -103,8 +94,15 @@ function Board() {
 
         }
 
+        if (this.currentPiece._isSet === true) {
+
+            this.currentPiece.generateNewPiece();
+        }
+
+
 
         //Attempt to move the piece
+        this.command = "d";
         //Verify legal move
         //Verify piece is not being set
         //Place the piece into the boardcheck
@@ -166,14 +164,91 @@ function Board() {
 
     }
 
-}
+    this.masterCheckCollision = function () {
+        //checks the collisions between  this._board[][] and _currentPiece._boardCheck[][]
+        //then flags either 
+        if (this.currentPiece._pieceType !== undefined) {
+            switch (this.currentPiece._pieceType) {
+                case "I":
+                    this.currentPiece = checkCollisionI(this.currentPiece);
+                    break;
+                case "J":
+                    this.currentPiece = checkCollisionJ(this.currentPiece);
+                    break;
+                case "L":
+                    this.currentPiece = checkCollisionL(this.currentPiece);
+                    break;
+                case "O":
+                    this.currentPiece = checkCollisionO(this.currentPiece);
+                    break;
+                case "S":
+                    this.currentPiece = checkCollisionS(this.currentPiece);
+                    break;
+                case "Z":
+                    this.currentPiece = checkCollisionZ(this.currentPiece);
+                    break;
+                case "T":
+                    this.currentPiece = checkCollisionT(this.currentPiece);
+                    break;
+            }
 
-function boardInit(width, height) {
-    let board = new Array(this._gridWidth);//creating the multidem array in javascript <3
-    for (let i = 0; i < this._boardCheck.length; i++) {
-        this._boardCheck[i] = new Array(this._gridHeight);
+        }
+    }
+    function checkCollisionI(piece) {
+        piece._isSet = true;
+        return piece;
+    }
+    function checkCollisionJ(piece) {
+        piece._isSet = true;
+        return piece;
+    }
+    function checkCollisionL(piece) {
+        piece._isSet = true;
+        return piece;
+    }
+    function checkCollisionO(piece) {
+        piece._isSet = true;
+        return piece;
+    }
+    function checkCollisionS(piece) {
+        piece._isSet = true;
+        return piece;
+    }
+    function checkCollisionZ(piece) {
+        piece._isSet = true;
+        return piece;
+    }
+    function checkCollisionT(piece) {
+        piece._isSet = true;
+        return piece;
+    }
+
+    this.masterMove = function () {
+
+    }
+    function masterMoveI(piece) {
+
+    }
+    function masterMoveJ(piece) {
+
+    }
+    function masterMoveL(piece) {
+
+    }
+    function masterMoveO(piece) {
+
+    }
+    function masterMoveS(piece) {
+
+    }
+    function masterMoveZ(piece) {
+
+    }
+    function masterMoveT(piece) {
+
     }
 }
+
 function Piece() {
 
     this._pieceType = undefined;//0===I , 1===T , 2===L , 3===J , 4===S , 5===Z , 6===BLOCK
@@ -182,10 +257,13 @@ function Piece() {
     this._rotation = undefined;
     this._gridHeight = 25;
     this._gridWidth = 12;
+
     this._isDownBlocked = false;
     this._isLeftBlocked = false;
     this._isRightBlocked = false;
     this._isUpBlocked = false;
+    this._isSet = false;
+
     this._boardCheck = new Array(this._gridWidth);//creating the multidem array in javascript <3
     for (let i = 0; i < this._boardCheck.length; i++) {
         this._boardCheck[i] = new Array(this._gridHeight);
@@ -195,6 +273,7 @@ function Piece() {
     
     this.generateNewPiece = function () {
         let num = Math.floor(7 * Math.random());
+        //let num = 0;
 
         for (let i = 0; i < this._gridWidth; i++) {
             //////board set up
@@ -209,6 +288,7 @@ function Piece() {
         this._isLeftBlocked = false;
         this._isRightBlocked = false;
         this._isUpBlocked = false;
+        this._isSet = false;
 
 
         //0===I , 1===T , 2===L , 3===J , 4===S , 5===Z , 6===O
@@ -216,6 +296,7 @@ function Piece() {
         this._yPosition = 3;// 
         switch (num) {
             case 0://I piece
+                this._pieceType = "I";
                 this._boardCheck[this._xPosition][this._yPosition] = "red";
                 this._boardCheck[this._xPosition + 1][this._yPosition] = "red";
                 this._boardCheck[this._xPosition + 2][this._yPosition] = "red";
@@ -223,36 +304,42 @@ function Piece() {
                 this._rotation = 0;//2 rotations
                 break;
             case 1://T
+                this._pieceType = "T";
                 this._boardCheck[this._xPosition][this._yPosition] = "teal";
                 this._boardCheck[this._xPosition - 1][this._yPosition] = "teal";
                 this._boardCheck[this._xPosition + 1][this._yPosition] = "teal";
                 this._boardCheck[this._xPosition][this._yPosition + 1] = "teal";
                 break;
             case 2://L
+                this._pieceType = "L";
                 this._boardCheck[this._xPosition][this._yPosition] = "orange";
                 this._boardCheck[this._xPosition + 1][this._yPosition] = "orange";
                 this._boardCheck[this._xPosition - 1][this._yPosition] = "orange";
                 this._boardCheck[this._xPosition - 1][this._yPosition + 1] = "orange";
                 break;
             case 3://J
+                this._pieceType = "J";
                 this._boardCheck[this._xPosition][this._yPosition] = "blue";
                 this._boardCheck[this._xPosition - 1][this._yPosition] = "blue";
                 this._boardCheck[this._xPosition + 1][this._yPosition] = "blue";
                 this._boardCheck[this._xPosition + 1][this._yPosition + 1] = "blue";
                 break;
             case 4://S
+                this._pieceType = "S";
                 this._boardCheck[this._xPosition][this._yPosition] = "purple";
                 this._boardCheck[this._xPosition + 1][this._yPosition] = "purple";
                 this._boardCheck[this._xPosition][this._yPosition + 1] = "purple";
                 this._boardCheck[this._xPosition - 1][this._yPosition + 1] = "purple";
                 break;
             case 5://Z
+                this._pieceType = "S";
                 this._boardCheck[this._xPosition][this._yPosition] = "green";
                 this._boardCheck[this._xPosition - 1][this._yPosition] = "green";
                 this._boardCheck[this._xPosition][this._yPosition + 1] = "green";
                 this._boardCheck[this._xPosition + 1][this._yPosition + 1] = "green";
                 break;
             case 6://O
+                this._pieceType = "O";
                 this._boardCheck[this._xPosition][this._yPosition] = "yellow";
                 this._boardCheck[this._xPosition + 1][this._yPosition] = "yellow";
                 this._boardCheck[this._xPosition + 1][this._yPosition + 1] = "yellow";
@@ -264,12 +351,8 @@ function Piece() {
 
 
     }
-    this.checkCollision = function () {
 
-    }
 }
-
-
 
 var mouse = {
     x: undefined, y: undefined
@@ -280,20 +363,18 @@ window.addEventListener('mousemove', function (event) {
     //console.log(mouse.x + " " + mouse.y);
 });
 
-
-
-
 var board = new Board();
-
 function animate() {
     requestAnimationFrame(animate);
     c.clearRect(0, 0, canvas.width, canvas.height);
 
     board.update();
     board.draw();
+    //get command
+    board.masterCheckCollision();
 
 
-    board.currentPiece.generateNewPiece();
+
 }
 
 animate();
