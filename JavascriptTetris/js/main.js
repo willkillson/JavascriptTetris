@@ -111,7 +111,12 @@ function Board() {
         }
         this.currentPiece._command = this.command;// pass the command to the piece
         this.masterCheckCollision(); // check the collision of the piece vs the board
-        this.currentPiece.masterMove(board.command); // if everything is good, then move the current piece
+        if (this.currentPiece._canMove === true) {// if everything is good, then move the current piece
+            this.currentPiece.masterMove(board.command);
+        }
+        else {
+            this.currentPiece._isSet = true;
+        }
         this.currentPiece.update();
         this.draw(); //redraw everything
     }
@@ -173,7 +178,7 @@ function Board() {
         //then flags either 
             switch (this.currentPiece._pieceType) {
                 case "I":
-                    this.currentPiece = checkCollisionI(this.currentPiece);
+                    this.checkCollisionI();
                     break;
                 case "J":
                     this.currentPiece = checkCollisionJ(this.currentPiece);
@@ -196,9 +201,20 @@ function Board() {
             }
 
         }
-    function checkCollisionI(piece) {
+    this.checkCollisionI =  function() {
+        let xpos = this.currentPiece._xPosition;
+        let ypos = this.currentPiece._yPosition;
+
+        //south check
+        if (this._board[xpos][ypos + 1] !== "empty") {
+            this.currentPiece._canMove = false;
+            return;
+        }
+
+
         //piece._isSet = true;
-        return piece;
+        this.currentPiece._canMove = true;
+        return;
     }
     function checkCollisionJ(piece) {
         piece._isSet = true;
@@ -227,20 +243,22 @@ function Board() {
 
 }
 function Piece() {
-
-    this._pieceType = undefined;//0===I , 1===T , 2===L , 3===J , 4===S , 5===Z , 6===BLOCK
-    this._xPosition = undefined;// in relation to the main board
-    this._yPosition = undefined;// in relation to the main board
-    this._rotation = undefined;
     this._gridHeight = 25;
     this._gridWidth = 12;
 
-    this._isDownBlocked = false;
-    this._isLeftBlocked = false;
-    this._isRightBlocked = false;
-    this._isUpBlocked = false;
-    this._isSet = false;
+    this._pieceType = undefined;//WARNING THIS IS OLD INFORMATION AND THEY USE CHARACTERS NOW 0===I , 1===T , 2===L , 3===J , 4===S , 5===Z , 6===BLOCK
+    this._xPosition = undefined;// in relation to the main board
+    this._yPosition = undefined;// in relation to the main board
+    this._rotation = undefined;
+    this._isDownBlocked = undefined;
+    this._isLeftBlocked = undefined;
+    this._isRightBlocked = undefined;
+    this._isUpBlocked = undefined;
+    this._canMove = undefined;
+    this._isSet = undefined;
     this._command = undefined;
+
+
 
     this._boardCheck = new Array(this._gridWidth);//creating the multidem array in javascript <3
     for (let i = 0; i < this._boardCheck.length; i++) {
@@ -267,6 +285,7 @@ function Piece() {
         this._isRightBlocked = false;
         this._isUpBlocked = false;
         this._isSet = false;
+        this._canMove = false;
 
         //reset current command
         this._currentCommand = undefined;
@@ -382,6 +401,9 @@ function Piece() {
                     case 0:
                         console.log("this.update I,0");
                         this._boardCheck[this._xPosition][this._yPosition] = "red";
+                        this._boardCheck[this._xPosition-1][this._yPosition] = "red";
+                        this._boardCheck[this._xPosition+2][this._yPosition] = "red";
+                        this._boardCheck[this._xPosition+1][this._yPosition] = "red";
                         break;
                     case 1:
                         break;
