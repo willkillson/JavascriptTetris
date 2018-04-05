@@ -627,6 +627,25 @@ function Board() {
                 }
                 break;
             case 1:
+                switch (this.currentPiece._command) {//commands
+                    case "d":
+
+                        if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos - 1][ypos + 1] !== "empty")) {
+                            this.currentPiece._canMove = false;
+                            return;
+                        }
+                        break;
+                    case "l":
+                        break;
+                    case "r":
+                        break;
+                    case "u":
+                        break;
+                    case "rr":
+                        break;
+                    case "rl":
+                        break;
+                }
                 break;
         }
 
@@ -736,6 +755,7 @@ function Piece() {
                 this._rotation = Math.floor(4 * Math.random());
                 break;
             case 4:
+                this._rotation = Math.floor(2 * Math.random());
                 break;
             case 5:
                 break;
@@ -967,7 +987,12 @@ function Piece() {
                 this._boardCheck[this._xPosition - 1][this._yPosition + 1] = "purple";
                 break;
             case 1:
+                this._boardCheck[this._xPosition][this._yPosition] = "purple";
+                this._boardCheck[this._xPosition - 1][this._yPosition] = "purple";
+                this._boardCheck[this._xPosition-1][this._yPosition - 1] = "purple";
+                this._boardCheck[this._xPosition][this._yPosition + 1] = "purple";
                 break;
+
         }
     }
     this.updateZ = function () {
