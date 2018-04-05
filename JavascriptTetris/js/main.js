@@ -60,6 +60,15 @@ window.addEventListener('mousemove', function (event) {
 const GRIDHEIGHT = 25;
 const GRIDWIDTH = 12;
 
+const red = "rgba(255,51,51,0.9)";
+const teal = "rgba(51,255,255,0.9)";
+const orange = "rgba(255,153,51,0.9)";
+const blue = "rgba(51,51,255,0.9)";
+const purple = "rgba(153,51,255,0.9)";
+const green = "rgba(51,255,51,0.9)";
+const yellow = "rgba(255,255,51,0.9)";
+const black = "rgba(0,0,0,0.9)";
+
 function clearBoard(board) {
     let v = board;
     for (let i = 0; i < GRIDWIDTH; i++) {
@@ -137,62 +146,59 @@ function Board() {
 
                 //so this is where we pick different colors
                 c.beginPath();
-                c.fillStyle = 'red';
+                c.fillStyle = red;
 
 
                 switch (this._board[i][j]) {
                     case "boarder":
-                        c.fillStyle = 'blue';
+                        c.fillStyle = blue;
                         break;
                     case "empty":
-                        c.fillStyle = 'black';
-                        break;
-                    case "empty":
-                        c.fillStyle = 'black';
+                        c.fillStyle = black;
                         break;
                     case "orange":
-                        c.fillStyle = 'orange';
+                        c.fillStyle = orange;
                         break;
                     case "teal":
-                        c.fillStyle = 'teal';
+                        c.fillStyle = teal;
                         break;
                     case "red":
-                        c.fillStyle = 'red';
+                        c.fillStyle = red;
                         break;
                     case "blue":
-                        c.fillStyle = 'blue';
+                        c.fillStyle = blue;
                         break;
                     case "purple":
-                        c.fillStyle = 'purple';
+                        c.fillStyle = purple;
                         break;
                     case "green":
-                        c.fillStyle = 'green';
+                        c.fillStyle = green;
                         break;
                     case "yellow":
-                        c.fillStyle = 'yellow';
+                        c.fillStyle = yellow;
                         break;
                 }
                 switch (this.currentPiece._boardCheck[i][j]) {
                     case "orange":
-                        c.fillStyle = 'orange';
+                        c.fillStyle = orange;
                         break;
                     case "teal":
-                        c.fillStyle = 'teal';
+                        c.fillStyle = teal;
                         break;
                     case "red":
-                        c.fillStyle = 'red';
+                        c.fillStyle = red;
                         break;
                     case "blue":
-                        c.fillStyle = 'blue';
+                        c.fillStyle = blue;
                         break;
                     case "purple":
-                        c.fillStyle = 'purple';
+                        c.fillStyle = purple;
                         break;
                     case "green":
-                        c.fillStyle = 'green';
+                        c.fillStyle = green;
                         break;
                     case "yellow":
-                        c.fillStyle = 'yellow';
+                        c.fillStyle = yellow;
                         break;
                 }
 
@@ -864,7 +870,10 @@ var board = new Board();
 function animate() {
     requestAnimationFrame(animate);
     c.clearRect(0, 0, canvas.width, canvas.height);
-
+    c.beginPath();
+    c.fillStyle = 'black';
+    c.fillRect(0, 0, canvas.width,canvas.height);
+    c.stroke();
     board.update(); //update the board and pieces
 
 
