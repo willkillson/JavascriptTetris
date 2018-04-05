@@ -57,10 +57,10 @@ window.addEventListener('mousemove', function (event) {
 //    c.arc(x, y, 30, 0, 2 * Math.PI, false);
 //    c.stroke();
 //}
-const GRIDHEIGHT = 100;//og 25
-const GRIDWIDTH = 70;//og 14
-const CELLSIZE = 8;//og 30
-const CELLPADDING = 0.1;//og 1
+const GRIDHEIGHT = 25;//og 25
+const GRIDWIDTH = 14;//og 14
+const CELLSIZE = 30;//og 30
+const CELLPADDING = 1;//og 1
 
 const red = "rgba(255,51,51,0.9)";
 const teal = "rgba(51,255,255,0.9)";
@@ -1113,9 +1113,9 @@ function animate() {
 
 
     board.update(); //update the board and pieces
-    //if (board.isGameOver) {
-    //    board = new Board();
-    //}
+    if (board.isGameOver) {
+        board = new Board();
+    }
 
 }
 
