@@ -513,8 +513,6 @@ function Piece() {
     for (let i = 0; i < this._boardCheck.length; i++) {
         this._boardCheck[i] = new Array(this._gridHeight);
     }
-
-
     
     this.generateNewPiece = function () {
         let num = Math.floor(7 * Math.random());
@@ -645,10 +643,6 @@ function Piece() {
                         this._boardCheck = clearBoard(this._boardCheck);
                         this._yPosition += 1; 
                         break;
-                    case 2:
-                        break;
-                    case 3:
-                        break;
                 }
                 break;
             case "l":
@@ -666,6 +660,8 @@ function Piece() {
                         this._yPosition += 1;
                         break;
                     case 1:
+                        this._boardCheck = clearBoard(this._boardCheck);
+                        this._yPosition += 1;
                         break;
                     case 2:
                         break;
@@ -789,99 +785,134 @@ function Piece() {
         }
     }
 
-
     this.update = function () {
         switch (this._pieceType) {//0===I , 1===T , 2===L , 3===J , 4===S , 5===Z , 6===BLOCK
             case "I"://red
-                switch (this._rotation) {
-                    case 0:
-                        this._boardCheck[this._xPosition][this._yPosition] = "red";
-                        this._boardCheck[this._xPosition-1][this._yPosition] = "red";
-                        this._boardCheck[this._xPosition+2][this._yPosition] = "red";
-                        this._boardCheck[this._xPosition+1][this._yPosition] = "red";
-                        break;
-                    case 1:
-                        this._boardCheck[this._xPosition+1][this._yPosition] = "red";
-                        this._boardCheck[this._xPosition +1][this._yPosition-1] = "red";
-                        this._boardCheck[this._xPosition + 1][this._yPosition-2] = "red";
-                        this._boardCheck[this._xPosition + 1][this._yPosition+1] = "red";
-                        break;
-                }
+                this.updateI();
                 break;
             case "T":
-                switch (this._rotation) {
-                    case 0:
-                        this._boardCheck[this._xPosition][this._yPosition] = "teal";
-                        this._boardCheck[this._xPosition - 1][this._yPosition] = "teal";
-                        this._boardCheck[this._xPosition][this._yPosition + 1] = "teal";
-                        this._boardCheck[this._xPosition + 1][this._yPosition] = "teal";
-                        break;
-                    case 1:
-                        break;
-                }
+                this.updateT();
                 break;
             case "L":
-                switch (this._rotation) {
-                    case 0:
-                        this._boardCheck[this._xPosition][this._yPosition] = "orange";
-                        this._boardCheck[this._xPosition - 1][this._yPosition] = "orange";
-                        this._boardCheck[this._xPosition + 1][this._yPosition] = "orange";
-                        this._boardCheck[this._xPosition - 1][this._yPosition + 1] = "orange";
-                        break;
-                    case 1:
-                        break;
-                }
+                this.updateL();
                 break;
             case "J":
-                switch (this._rotation) {
-                    case 0:
-                        this._boardCheck[this._xPosition][this._yPosition] = "blue";
-                        this._boardCheck[this._xPosition - 1][this._yPosition] = "blue";
-                        this._boardCheck[this._xPosition + 1][this._yPosition] = "blue";
-                        this._boardCheck[this._xPosition + 1][this._yPosition + 1] = "blue";
-                        break;
-                    case 1:
-                        break;
-                }
+                this.updateJ();
                 break;
             case "S":
-                switch (this._rotation) {
-                    case 0:
-                        this._boardCheck[this._xPosition][this._yPosition] = "purple";
-                        this._boardCheck[this._xPosition + 1][this._yPosition] = "purple";
-                        this._boardCheck[this._xPosition][this._yPosition + 1] = "purple";
-                        this._boardCheck[this._xPosition - 1][this._yPosition + 1] = "purple";
-                        break;
-                    case 1:
-                        break;
-                }
+                this.updateS();
                 break;
             case "Z":
-                switch (this._rotation) {
-                    case 0:
-                        this._boardCheck[this._xPosition][this._yPosition] = "green";
-                        this._boardCheck[this._xPosition - 1][this._yPosition] = "green";
-                        this._boardCheck[this._xPosition][this._yPosition + 1] = "green";
-                        this._boardCheck[this._xPosition + 1][this._yPosition + 1] = "green";
-                        break;
-                    case 1:
-                        break;
-                }
+                this.updateZ();
                 break;
             case "O":
-                switch (this._rotation) {
-                    case 0:
-                        this._boardCheck[this._xPosition][this._yPosition] = "yellow";
-                        this._boardCheck[this._xPosition + 1][this._yPosition] = "yellow";
-                        this._boardCheck[this._xPosition + 1][this._yPosition + 1] = "yellow";
-                        this._boardCheck[this._xPosition][this._yPosition + 1] = "yellow";
-                        break;
-                    case 1:
-                        break;
-                }
+                this.updateO();
                 break;
         }
 
+    }
+    this.updateI = function () {
+        switch (this._rotation) {
+
+            case 0:
+                this._boardCheck[this._xPosition][this._yPosition] = "red";
+                this._boardCheck[this._xPosition - 1][this._yPosition] = "red";
+                this._boardCheck[this._xPosition + 2][this._yPosition] = "red";
+                this._boardCheck[this._xPosition + 1][this._yPosition] = "red";
+                break;
+            case 1:
+                this._boardCheck[this._xPosition + 1][this._yPosition] = "red";
+                this._boardCheck[this._xPosition + 1][this._yPosition - 1] = "red";
+                this._boardCheck[this._xPosition + 1][this._yPosition - 2] = "red";
+                this._boardCheck[this._xPosition + 1][this._yPosition + 1] = "red";
+                break;
+        }
+    }
+    this.updateT = function () {
+        switch (this._rotation) {
+            case 0:
+                this._boardCheck[this._xPosition][this._yPosition] = "teal";
+                this._boardCheck[this._xPosition - 1][this._yPosition] = "teal";
+                this._boardCheck[this._xPosition][this._yPosition + 1] = "teal";
+                this._boardCheck[this._xPosition + 1][this._yPosition] = "teal";
+                break;
+            case 1:
+                this._boardCheck[this._xPosition][this._yPosition] = "teal";
+                this._boardCheck[this._xPosition - 1][this._yPosition] = "teal";
+                this._boardCheck[this._xPosition][this._yPosition + 1] = "teal";
+                this._boardCheck[this._xPosition][this._yPosition - 1] = "teal";
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+            case 4:
+                break;
+
+        }
+    }
+    this.updateL = function () {
+
+        switch (this._rotation) {
+            case 0:
+                this._boardCheck[this._xPosition][this._yPosition] = "orange";
+                this._boardCheck[this._xPosition - 1][this._yPosition] = "orange";
+                this._boardCheck[this._xPosition + 1][this._yPosition] = "orange";
+                this._boardCheck[this._xPosition - 1][this._yPosition + 1] = "orange";
+                break;
+            case 1:
+                break;
+        }
+    }
+    this.updateJ = function () {
+
+        switch (this._rotation) {
+            case 0:
+                this._boardCheck[this._xPosition][this._yPosition] = "blue";
+                this._boardCheck[this._xPosition - 1][this._yPosition] = "blue";
+                this._boardCheck[this._xPosition + 1][this._yPosition] = "blue";
+                this._boardCheck[this._xPosition + 1][this._yPosition + 1] = "blue";
+                break;
+            case 1:
+                break;
+        }
+    }
+    this.updateS = function () {
+        switch (this._rotation) {
+            case 0:
+                this._boardCheck[this._xPosition][this._yPosition] = "purple";
+                this._boardCheck[this._xPosition + 1][this._yPosition] = "purple";
+                this._boardCheck[this._xPosition][this._yPosition + 1] = "purple";
+                this._boardCheck[this._xPosition - 1][this._yPosition + 1] = "purple";
+                break;
+            case 1:
+                break;
+        }
+    }
+    this.updateZ = function () {
+        switch (this._rotation) {
+            case 0:
+                this._boardCheck[this._xPosition][this._yPosition] = "green";
+                this._boardCheck[this._xPosition - 1][this._yPosition] = "green";
+                this._boardCheck[this._xPosition][this._yPosition + 1] = "green";
+                this._boardCheck[this._xPosition + 1][this._yPosition + 1] = "green";
+                break;
+            case 1:
+                break;
+        }
+    }
+    this.updateO = function () {
+
+        switch (this._rotation) {
+            case 0:
+                this._boardCheck[this._xPosition][this._yPosition] = "yellow";
+                this._boardCheck[this._xPosition + 1][this._yPosition] = "yellow";
+                this._boardCheck[this._xPosition + 1][this._yPosition + 1] = "yellow";
+                this._boardCheck[this._xPosition][this._yPosition + 1] = "yellow";
+                break;
+            case 1:
+                break;
+        }
     }
 
     function clearBoard(board) {
