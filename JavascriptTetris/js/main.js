@@ -81,6 +81,7 @@ function clearBoard(board) {
 }
 
 function Board() {
+    this.isGameOver = false;
     this.intensity = 1;
     this._gridHeight = 25;
     this._gridWidth = 12;
@@ -119,13 +120,16 @@ function Board() {
             if (this.currentPiece._canMove === false) {
                 console.log("PIECE IS SET!");
                 this.currentPiece.generateNewPiece();
+                this.isGameOver = true;
             }
             this.currentPiece.generateNewPiece();
             this.command = "d";
         }
         this.currentPiece._command = this.command;// pass the command to the piece
         this.masterCheckCollision(); // check the collision of the piece vs the board
+
         if (this.currentPiece._canMove === true) {// if everything is good, then move the current piece
+            this.isGameOver = false;
             this.currentPiece.masterMove(board.command);
         }
         else if (this.currentPiece._canMove===false) {
@@ -265,6 +269,25 @@ function Board() {
                 }
                 break;
             case 1:
+                switch (this.currentPiece._command) {//commands
+                    case "d":
+
+                        if ((this._board[xpos+1][ypos + 2] !== "empty")) {
+                            this.currentPiece._canMove = false;
+                            return;
+                        }
+                        break;
+                    case "l":
+                        break;
+                    case "r":
+                        break;
+                    case "u":
+                        break;
+                    case "rr":
+                        break;
+                    case "rl":
+                        break;
+                }
                 break;
         }
 
@@ -495,7 +518,7 @@ function Piece() {
     
     this.generateNewPiece = function () {
         let num = Math.floor(7 * Math.random());
-        //num = 1;
+        //num = 0;
 
         for (let i = 0; i < this._gridWidth; i++) {
             //////board set up
@@ -506,7 +529,8 @@ function Piece() {
         }
 
         //reset collision
-        this._rotation = 0;//2 rotations
+        this._rotation = 0;
+
         this._isDownBlocked = false;
         this._isLeftBlocked = false;
         this._isRightBlocked = false;
@@ -517,6 +541,10 @@ function Piece() {
         //reset current command
         this._currentCommand = undefined;
 
+
+        if (num === 0) {////////////testing
+            this._rotation = Math.floor(2 * Math.random());
+        }
 
         //0===I , 1===T , 2===L , 3===J , 4===S , 5===Z , 6===O
         this._xPosition = 5;// 
@@ -614,6 +642,8 @@ function Piece() {
                         this._yPosition += 1; 
                         break;
                     case 1:
+                        this._boardCheck = clearBoard(this._boardCheck);
+                        this._yPosition += 1; 
                         break;
                     case 2:
                         break;
@@ -771,6 +801,10 @@ function Piece() {
                         this._boardCheck[this._xPosition+1][this._yPosition] = "red";
                         break;
                     case 1:
+                        this._boardCheck[this._xPosition+1][this._yPosition] = "red";
+                        this._boardCheck[this._xPosition +1][this._yPosition-1] = "red";
+                        this._boardCheck[this._xPosition + 1][this._yPosition-2] = "red";
+                        this._boardCheck[this._xPosition + 1][this._yPosition+1] = "red";
                         break;
                 }
                 break;
@@ -881,7 +915,9 @@ function animate() {
 
 
     board.update(); //update the board and pieces
-
+    if (board.isGameOver) {
+        board = new Board();
+    }
 
 }
 
