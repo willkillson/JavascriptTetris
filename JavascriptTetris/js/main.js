@@ -746,193 +746,25 @@ function Piece() {
 
     this.move = function () {
 
-        switch (this._pieceType) {
-            case "I":
-                this.moveI();
-                break;
-            case "J":
-                this.moveJ();
-                break;
-            case "L":
-                this.moveL();
-                break;
-            case "O":
-                this.moveO();
-                break;
-            case "S":
-                this.moveS();
-                break;
-            case "Z":
-                this.moveZ();
-                break;
-            case "T":
-                this.moveT();
-                break;
-        }
-    }
-    this.moveI = function () {
-        switch (this._command) {
+        this.move = function () {
+            this._boardCheck = clearBoard(this._boardCheck);
+            switch (this._command) {
                 //0 === I, 1 === T, 2 === L, 3 === J, 4 === S, 5 === Z, 6 === BLOCK
-            case "d":
-                switch (this._rotation) {
-                    case 0:      
-                        this._boardCheck = clearBoard(this._boardCheck);
-                        this._yPosition += 1; 
-                        break;
-                    case 1:
-                        this._boardCheck = clearBoard(this._boardCheck);
-                        this._yPosition += 1; 
-                        break;
-                }
-                break;
-            case "l":
-                break;
-
+                case "d":
+                    this._yPosition += 1;
+                    break;
+                case "u":
+                    this._yPosition += 1;
+                    break;
+                case "l":
+                    this._xPosition -= 1;
+                    break;
+                case "r":
+                    this._xPosition += 1;
+                    break;
+            }
         }
-    }
-    this.moveT = function () {
-        switch (this._command) {
-            //0 === I, 1 === T, 2 === L, 3 === J, 4 === S, 5 === Z, 6 === BLOCK
-            case "d":
-                switch (this._rotation) {
-                    case 0:
-                        this._boardCheck = clearBoard(this._boardCheck);
-                        this._yPosition += 1;
-                        break;
-                    case 1:
-                        this._boardCheck = clearBoard(this._boardCheck);
-                        this._yPosition += 1;
-                        break;
-                    case 2:
-                        this._boardCheck = clearBoard(this._boardCheck);
-                        this._yPosition += 1;
-                        break;
-                    case 3:
-                        this._boardCheck = clearBoard(this._boardCheck);
-                        this._yPosition += 1;
-                        break;
-                }
-                break;
-            case "l":
-                break;
 
-        }
-    }
-    this.moveL = function () {
-        switch (this._command) {
-            //0 === I, 1 === T, 2 === L, 3 === J, 4 === S, 5 === Z, 6 === BLOCK
-            case "d":
-                switch (this._rotation) {
-                    case 0:
-                        this._boardCheck = clearBoard(this._boardCheck);
-                        this._yPosition += 1;
-                        break;
-                    case 1:
-                        this._boardCheck = clearBoard(this._boardCheck);
-                        this._yPosition += 1;
-                        break;
-                    case 2:
-                        this._boardCheck = clearBoard(this._boardCheck);
-                        this._yPosition += 1;
-                        break;
-                    case 3:
-                        this._boardCheck = clearBoard(this._boardCheck);
-                        this._yPosition += 1;
-                        break;
-                }
-                break;
-            case "l":
-                break;
-
-        }
-    }
-    this.moveJ = function () {
-        switch (this._command) {
-            //0 === I, 1 === T, 2 === L, 3 === J, 4 === S, 5 === Z, 6 === BLOCK
-            case "d":
-                switch (this._rotation) {
-                    case 0:
-                        this._boardCheck = clearBoard(this._boardCheck);
-                        this._yPosition += 1;
-                        break;
-                    case 1:
-                        break;
-                    case 2:
-                        break;
-                    case 3:
-                        break;
-                }
-                break;
-            case "l":
-                break;
-
-        }
-    }
-    this.moveS = function () {
-        switch (this._command) {
-            //0 === I, 1 === T, 2 === L, 3 === J, 4 === S, 5 === Z, 6 === BLOCK
-            case "d":
-                switch (this._rotation) {
-                    case 0:
-                        this._boardCheck = clearBoard(this._boardCheck);
-                        this._yPosition += 1;
-                        break;
-                    case 1:
-                        break;
-                    case 2:
-                        break;
-                    case 3:
-                        break;
-                }
-                break;
-            case "l":
-                break;
-
-        }
-    }
-    this.moveZ = function () {
-        switch (this._command) {
-            //0 === I, 1 === T, 2 === L, 3 === J, 4 === S, 5 === Z, 6 === BLOCK
-            case "d":
-                switch (this._rotation) {
-                    case 0:
-                        this._boardCheck = clearBoard(this._boardCheck);
-                        this._yPosition += 1;
-                        break;
-                    case 1:
-                        break;
-                    case 2:
-                        break;
-                    case 3:
-                        break;
-                }
-                break;
-            case "l":
-                break;
-
-        }
-    }
-    this.moveO = function () {
-        switch (this._command) {
-            //0 === I, 1 === T, 2 === L, 3 === J, 4 === S, 5 === Z, 6 === O
-            case "d":
-                switch (this._rotation) {
-                    case 0:
-                        this._boardCheck = clearBoard(this._boardCheck);
-                        this._yPosition += 1;
-                        break;
-                    case 1:
-                        break;
-                    case 2:
-                        break;
-                    case 3:
-                        break;
-                }
-                break;
-            case "l":
-                break;
-
-        }
     }
 
     this.update = function () {
