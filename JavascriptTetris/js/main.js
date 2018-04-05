@@ -103,19 +103,26 @@ function Board() {
         if (this.currentPiece === undefined) {
             this.currentPiece = new Piece();
             this.currentPiece.generateNewPiece();
+            this.command = "d";
 
         }
         if (this.currentPiece._isSet === true) {
-
+            if (this.currentPiece._canMove === false) {
+                console.log("PIECE IS SET!");
+                this.currentPiece.generateNewPiece();
+            }
             this.currentPiece.generateNewPiece();
+            this.command = "d";
         }
         this.currentPiece._command = this.command;// pass the command to the piece
         this.masterCheckCollision(); // check the collision of the piece vs the board
         if (this.currentPiece._canMove === true) {// if everything is good, then move the current piece
             this.currentPiece.masterMove(board.command);
         }
-        else {
+        else if (this.currentPiece._canMove===false) {
+            this.setBoard();// 
             this.currentPiece._isSet = true;
+
         }
         this.currentPiece.update();
         this.draw(); //redraw everything
@@ -241,6 +248,20 @@ function Board() {
         return piece;
     }
 
+    this.setBoard = function () {
+
+
+        for (let i = 0; i < this._gridWidth; i++) {
+            for (let j = 0; j < this._gridHeight; j++) {
+                if (this.currentPiece._boardCheck[i][j] !== "empty") {
+                    this._board[i][j] = this.currentPiece._boardCheck[i][j];
+                }
+            }
+        }
+    }
+
+
+
 }
 function Piece() {
     this._gridHeight = 25;
@@ -285,7 +306,7 @@ function Piece() {
         this._isRightBlocked = false;
         this._isUpBlocked = false;
         this._isSet = false;
-        this._canMove = false;
+        this._canMove = true;
 
         //reset current command
         this._currentCommand = undefined;
@@ -375,8 +396,7 @@ function Piece() {
         switch (this._command) {
             case "d":
                 switch (this._rotation) {
-                    case 0:
-                        console.log("dasdf");        
+                    case 0:      
                         this._boardCheck = clearBoard(this._boardCheck);
                         this._yPosition += 1; 
                         break;
@@ -399,7 +419,7 @@ function Piece() {
             case "I"://red
                 switch (this._rotation) {
                     case 0:
-                        console.log("this.update I,0");
+
                         this._boardCheck[this._xPosition][this._yPosition] = "red";
                         this._boardCheck[this._xPosition-1][this._yPosition] = "red";
                         this._boardCheck[this._xPosition+2][this._yPosition] = "red";
@@ -447,18 +467,8 @@ var board = new Board();
 function animate() {
     requestAnimationFrame(animate);
     c.clearRect(0, 0, canvas.width, canvas.height);
-    board.command = "d";//get command
+
     board.update(); //update the board and pieces
-
-
-    if (board.currentPiece._isSet === false) {
-        console.log(board.currentPiece._isSet);
-    }
-    if (board.currentPiece._pieceType === "I") {
-        console.log("I");
-    }
-
-
 
 
 }
