@@ -415,6 +415,67 @@ function Board() {
                 }
                 break;
             case 1:
+                switch (this.currentPiece._command) {//commands
+                    case "d":
+
+                        if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos - 1][ypos + 2] !== "empty")) {
+                            this.currentPiece._canMove = false;
+                            return;
+                        }
+                        break;
+                    case "l":
+                        break;
+                    case "r":
+                        break;
+                    case "u":
+                        break;
+                    case "rr":
+                        break;
+                    case "rl":
+                        break;
+                }
+                break;
+            case 2:
+                switch (this.currentPiece._command) {//commands
+                    case "d":
+
+                        if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos - 1][ypos + 2] !== "empty") || (this._board[xpos+1][ypos + 2] !== "empty")) {
+                            this.currentPiece._canMove = false;
+                            return;
+                        }
+                        break;
+                    case "l":
+                        break;
+                    case "r":
+                        break;
+                    case "u":
+                        break;
+                    case "rr":
+                        break;
+                    case "rl":
+                        break;
+                }
+                break;
+            case 3:
+                switch (this.currentPiece._command) {//commands
+                    case "d":
+
+                        if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos + 1][ypos ] !== "empty")) {
+                            this.currentPiece._canMove = false;
+                            return;
+                        }
+                        break;
+                    case "l":
+                        break;
+                    case "r":
+                        break;
+                    case "u":
+                        break;
+                    case "rr":
+                        break;
+                    case "rl":
+                        break;
+                }
                 break;
         }
 
@@ -636,7 +697,6 @@ function Piece() {
     for (let i = 0; i < this._boardCheck.length; i++) {
         this._boardCheck[i] = new Array(this._gridHeight);
     }
-    
     this.generateNewPiece = function () {
         let num = Math.floor(7 * Math.random());
         //num = 0;
@@ -673,6 +733,7 @@ function Piece() {
                 this._rotation = Math.floor(4 * Math.random());
                 break;
             case 3:
+                this._rotation = Math.floor(4 * Math.random());
                 break;
             case 4:
                 break;
@@ -743,10 +804,7 @@ function Piece() {
 
 
     }
-
     this.move = function () {
-
-        this.move = function () {
             this._boardCheck = clearBoard(this._boardCheck);
             switch (this._command) {
                 //0 === I, 1 === T, 2 === L, 3 === J, 4 === S, 5 === Z, 6 === BLOCK
@@ -763,9 +821,10 @@ function Piece() {
                     this._xPosition += 1;
                     break;
             }
-        }
+        
 
     }
+
 
     this.update = function () {
         switch (this._pieceType) {//0===I , 1===T , 2===L , 3===J , 4===S , 5===Z , 6===BLOCK
@@ -879,7 +938,24 @@ function Piece() {
                 this._boardCheck[this._xPosition + 1][this._yPosition + 1] = "blue";
                 break;
             case 1:
+                this._boardCheck[this._xPosition][this._yPosition] = "blue";
+                this._boardCheck[this._xPosition][this._yPosition+1] = "blue";
+                this._boardCheck[this._xPosition][this._yPosition-1] = "blue";
+                this._boardCheck[this._xPosition-1][this._yPosition] = "blue";
                 break;
+            case 2:
+                this._boardCheck[this._xPosition][this._yPosition+1] = "blue";
+                this._boardCheck[this._xPosition+1][this._yPosition + 1] = "blue";
+                this._boardCheck[this._xPosition-1][this._yPosition + 1] = "blue";
+                this._boardCheck[this._xPosition - 1][this._yPosition] = "blue";
+                break;
+            case 3:
+                this._boardCheck[this._xPosition][this._yPosition] = "blue";
+                this._boardCheck[this._xPosition+1][this._yPosition-1] = "blue";
+                this._boardCheck[this._xPosition][this._yPosition-1] = "blue";
+                this._boardCheck[this._xPosition][this._yPosition + 1] = "blue";
+                break;
+
         }
     }
     this.updateS = function () {
