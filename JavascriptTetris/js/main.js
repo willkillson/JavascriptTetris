@@ -150,6 +150,27 @@ function Board() {
                     case "empty":
                         c.fillStyle = 'black';
                         break;
+                    case "orange":
+                        c.fillStyle = 'orange';
+                        break;
+                    case "teal":
+                        c.fillStyle = 'teal';
+                        break;
+                    case "red":
+                        c.fillStyle = 'red';
+                        break;
+                    case "blue":
+                        c.fillStyle = 'blue';
+                        break;
+                    case "purple":
+                        c.fillStyle = 'purple';
+                        break;
+                    case "green":
+                        c.fillStyle = 'green';
+                        break;
+                    case "yellow":
+                        c.fillStyle = 'yellow';
+                        break;
                 }
                 switch (this.currentPiece._boardCheck[i][j]) {
                     case "orange":
@@ -764,10 +785,10 @@ function Piece() {
             case "L":
                 switch (this._rotation) {
                     case 0:
-                        this._boardCheck[this._xPosition][this._yPosition] = "red";
-                        this._boardCheck[this._xPosition - 1][this._yPosition] = "red";
-                        this._boardCheck[this._xPosition + 1][this._yPosition] = "red";
-                        this._boardCheck[this._xPosition -1][this._yPosition+1] = "red";
+                        this._boardCheck[this._xPosition][this._yPosition] = "orange";
+                        this._boardCheck[this._xPosition - 1][this._yPosition] = "orange";
+                        this._boardCheck[this._xPosition + 1][this._yPosition] = "orange";
+                        this._boardCheck[this._xPosition - 1][this._yPosition + 1] = "orange";
                         break;
                     case 1:
                         break;
@@ -776,10 +797,10 @@ function Piece() {
             case "J":
                 switch (this._rotation) {
                     case 0:
-                        this._boardCheck[this._xPosition][this._yPosition] = "red";
-                        this._boardCheck[this._xPosition - 1][this._yPosition] = "red";
-                        this._boardCheck[this._xPosition + 1][this._yPosition] = "red";
-                        this._boardCheck[this._xPosition + 1][this._yPosition+1] = "red";
+                        this._boardCheck[this._xPosition][this._yPosition] = "blue";
+                        this._boardCheck[this._xPosition - 1][this._yPosition] = "blue";
+                        this._boardCheck[this._xPosition + 1][this._yPosition] = "blue";
+                        this._boardCheck[this._xPosition + 1][this._yPosition + 1] = "blue";
                         break;
                     case 1:
                         break;
@@ -788,10 +809,10 @@ function Piece() {
             case "S":
                 switch (this._rotation) {
                     case 0:
-                        this._boardCheck[this._xPosition][this._yPosition] = "red";
-                        this._boardCheck[this._xPosition +1 ][this._yPosition] = "red";
-                        this._boardCheck[this._xPosition ][this._yPosition+1] = "red";
-                        this._boardCheck[this._xPosition - 1][this._yPosition+1] = "red";
+                        this._boardCheck[this._xPosition][this._yPosition] = "purple";
+                        this._boardCheck[this._xPosition + 1][this._yPosition] = "purple";
+                        this._boardCheck[this._xPosition][this._yPosition + 1] = "purple";
+                        this._boardCheck[this._xPosition - 1][this._yPosition + 1] = "purple";
                         break;
                     case 1:
                         break;
@@ -800,10 +821,10 @@ function Piece() {
             case "Z":
                 switch (this._rotation) {
                     case 0:
-                        this._boardCheck[this._xPosition][this._yPosition] = "red";
-                        this._boardCheck[this._xPosition - 1][this._yPosition] = "red";
-                        this._boardCheck[this._xPosition][this._yPosition+1] = "red";
-                        this._boardCheck[this._xPosition + 1][this._yPosition+1] = "red";
+                        this._boardCheck[this._xPosition][this._yPosition] = "green";
+                        this._boardCheck[this._xPosition - 1][this._yPosition] = "green";
+                        this._boardCheck[this._xPosition][this._yPosition + 1] = "green";
+                        this._boardCheck[this._xPosition + 1][this._yPosition + 1] = "green";
                         break;
                     case 1:
                         break;
@@ -812,10 +833,10 @@ function Piece() {
             case "O":
                 switch (this._rotation) {
                     case 0:
-                        this._boardCheck[this._xPosition][this._yPosition] = "red";
-                        this._boardCheck[this._xPosition + 1][this._yPosition] = "red";
-                        this._boardCheck[this._xPosition + 1][this._yPosition+1] = "red";
-                        this._boardCheck[this._xPosition][this._yPosition+1] = "red";
+                        this._boardCheck[this._xPosition][this._yPosition] = "yellow";
+                        this._boardCheck[this._xPosition + 1][this._yPosition] = "yellow";
+                        this._boardCheck[this._xPosition + 1][this._yPosition + 1] = "yellow";
+                        this._boardCheck[this._xPosition][this._yPosition + 1] = "yellow";
                         break;
                     case 1:
                         break;
