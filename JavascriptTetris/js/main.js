@@ -11,7 +11,14 @@ canvas.height = window.innerHeight - 2;
 
 var c = canvas.getContext('2d');
 
-
+var mouse = {
+    x: undefined, y: undefined
+}
+window.addEventListener('mousemove', function (event) {
+    mouse.x = event.x;
+    mouse.y = event.y;
+    //console.log(mouse.x + " " + mouse.y);
+});
 //////////////////////////////////////////line drawing
 //line
 //c.beginPath();
@@ -51,7 +58,18 @@ var c = canvas.getContext('2d');
 //    c.stroke();
 //}
 const GRIDHEIGHT = 25;
-const GRIDWIDTH = 11;
+const GRIDWIDTH = 12;
+
+function clearBoard(board) {
+    let v = board;
+    for (let i = 0; i < GRIDWIDTH; i++) {
+        //assigns whole _board array with empty
+        for (let j = 0; j < GRIDHEIGHT; j++) {
+            v[i][j] = "empty";
+        }
+    }
+    return v;
+}
 
 function Board() {
 
@@ -68,13 +86,7 @@ function Board() {
     for (let i = 0; i < this._board.length; i++) {
         this._board[i] = new Array(this._gridHeight);
     }
-    for (let i = 0; i < this._gridWidth; i++) {
-        //////board set up
-        //assigns whole _board array with empty
-        for (let j = 0; j < this._gridHeight; j++) {
-            this._board[i][j] = "empty";
-        }
-    }
+    this._board = clearBoard(this._board);
     for (let i = 0; i < this._gridHeight; i++) {
         //////board set up
         //assigns boarder portions of _board array
@@ -93,23 +105,15 @@ function Board() {
             this.currentPiece.generateNewPiece();
 
         }
-
         if (this.currentPiece._isSet === true) {
 
             this.currentPiece.generateNewPiece();
         }
-
-
-
-        //Attempt to move the piece
-        this.command = "d";
-        //Verify legal move
-        //Verify piece is not being set
-        //Place the piece into the boardcheck
-        //this._boardCheck[this.currentPiece._xPosition][this.currentPiece._yPosition] = "block";
-
-
-
+        this.currentPiece._command = this.command;// pass the command to the piece
+        this.masterCheckCollision(); // check the collision of the piece vs the board
+        this.currentPiece.masterMove(board.command); // if everything is good, then move the current piece
+        this.currentPiece.update();
+        this.draw(); //redraw everything
     }
     this.draw = function () {
 
@@ -167,7 +171,6 @@ function Board() {
     this.masterCheckCollision = function () {
         //checks the collisions between  this._board[][] and _currentPiece._boardCheck[][]
         //then flags either 
-        if (this.currentPiece._pieceType !== undefined) {
             switch (this.currentPiece._pieceType) {
                 case "I":
                     this.currentPiece = checkCollisionI(this.currentPiece);
@@ -193,9 +196,8 @@ function Board() {
             }
 
         }
-    }
     function checkCollisionI(piece) {
-        piece._isSet = true;
+        //piece._isSet = true;
         return piece;
     }
     function checkCollisionJ(piece) {
@@ -223,32 +225,7 @@ function Board() {
         return piece;
     }
 
-    this.masterMove = function () {
-
-    }
-    function masterMoveI(piece) {
-
-    }
-    function masterMoveJ(piece) {
-
-    }
-    function masterMoveL(piece) {
-
-    }
-    function masterMoveO(piece) {
-
-    }
-    function masterMoveS(piece) {
-
-    }
-    function masterMoveZ(piece) {
-
-    }
-    function masterMoveT(piece) {
-
-    }
 }
-
 function Piece() {
 
     this._pieceType = undefined;//0===I , 1===T , 2===L , 3===J , 4===S , 5===Z , 6===BLOCK
@@ -263,6 +240,7 @@ function Piece() {
     this._isRightBlocked = false;
     this._isUpBlocked = false;
     this._isSet = false;
+    this._command = undefined;
 
     this._boardCheck = new Array(this._gridWidth);//creating the multidem array in javascript <3
     for (let i = 0; i < this._boardCheck.length; i++) {
@@ -289,6 +267,9 @@ function Piece() {
         this._isRightBlocked = false;
         this._isUpBlocked = false;
         this._isSet = false;
+
+        //reset current command
+        this._currentCommand = undefined;
 
 
         //0===I , 1===T , 2===L , 3===J , 4===S , 5===Z , 6===O
@@ -351,27 +332,110 @@ function Piece() {
 
 
     }
+    this.masterMove = function () {
 
+        switch (this._pieceType) {
+            case "I":
+                this.moveI();
+                break;
+            case "J":
+                break;
+            case "L":
+                break;
+            case "O":
+                break;
+            case "S":
+                break;
+            case "Z":
+                break;
+            case "T":
+                break;
+        }
+    }
+    this.moveI = function () {
+        switch (this._command) {
+            case "d":
+                switch (this._rotation) {
+                    case 0:
+                        console.log("dasdf");        
+                        this._boardCheck = clearBoard(this._boardCheck);
+                        this._yPosition += 1; 
+                        break;
+                    case 1:
+                        break;
+                    case 2:
+                        break;
+                    case 3:
+                        break;
+                }
+                break;
+            case "l":
+                break;
+
+        }
+    }
+
+    this.update = function () {
+        switch (this._pieceType) {//0===I , 1===T , 2===L , 3===J , 4===S , 5===Z , 6===BLOCK
+            case "I"://red
+                switch (this._rotation) {
+                    case 0:
+                        console.log("this.update I,0");
+                        this._boardCheck[this._xPosition][this._yPosition] = "red";
+                        break;
+                    case 1:
+                        break;
+                    case 2:
+                        break;
+                    case 3:
+                        break;
+                }
+                break;
+            case "T":
+                break;
+            case "L":
+                break;
+            case "J":
+                break;
+            case "S":
+                break;
+            case "Z":
+                break;
+            case "O":
+                break;
+        }
+
+    }
+
+    function clearBoard(board) {
+        let v = board;
+        for (let i = 0; i < GRIDWIDTH; i++) {
+            //assigns whole _board array with empty
+            for (let j = 0; j < GRIDHEIGHT; j++) {
+                v[i][j] = "empty";
+            }
+        }
+        return v;
+    }
 }
 
-var mouse = {
-    x: undefined, y: undefined
-}
-window.addEventListener('mousemove', function (event) {
-    mouse.x = event.x;
-    mouse.y = event.y;
-    //console.log(mouse.x + " " + mouse.y);
-});
+
 
 var board = new Board();
 function animate() {
     requestAnimationFrame(animate);
     c.clearRect(0, 0, canvas.width, canvas.height);
+    board.command = "d";//get command
+    board.update(); //update the board and pieces
 
-    board.update();
-    board.draw();
-    //get command
-    board.masterCheckCollision();
+
+    if (board.currentPiece._isSet === false) {
+        console.log(board.currentPiece._isSet);
+    }
+    if (board.currentPiece._pieceType === "I") {
+        console.log("I");
+    }
+
 
 
 
