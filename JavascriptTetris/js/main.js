@@ -81,7 +81,7 @@ function clearBoard(board) {
 }
 
 function Board() {
-
+    this.intensity = 1;
     this._gridHeight = 25;
     this._gridWidth = 12;
     this._cellSize = 30;
@@ -138,8 +138,6 @@ function Board() {
     }
     this.draw = function () {
 
-
-
         for (let i = 0; i < this._gridWidth; i++) {
             for (let j = 0; j < this._gridHeight; j++) {
                 //we need to set the specific color depending on what is in the array
@@ -151,7 +149,7 @@ function Board() {
 
                 switch (this._board[i][j]) {
                     case "boarder":
-                        c.fillStyle = blue;
+                        c.fillStyle = `rgba(255,51,153,1)`;
                         break;
                     case "empty":
                         c.fillStyle = black;
@@ -871,9 +869,17 @@ function animate() {
     requestAnimationFrame(animate);
     c.clearRect(0, 0, canvas.width, canvas.height);
     c.beginPath();
-    c.fillStyle = 'black';
+    c.fillStyle = 'white';
     c.fillRect(0, 0, canvas.width,canvas.height);
     c.stroke();
+    c.beginPath();
+    c.fillStyle = `rgba(160,160,160,0.5)`;
+    c.fillRect(0, 0, 12 * 31-1, (26 * 30)-5);
+    c.stroke();
+
+
+
+
     board.update(); //update the board and pieces
 
 
