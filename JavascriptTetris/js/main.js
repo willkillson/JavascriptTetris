@@ -57,8 +57,10 @@ window.addEventListener('mousemove', function (event) {
 //    c.arc(x, y, 30, 0, 2 * Math.PI, false);
 //    c.stroke();
 //}
-const GRIDHEIGHT = 25;
-const GRIDWIDTH = 12;
+const GRIDHEIGHT = 100;//og 25
+const GRIDWIDTH = 70;//og 14
+const CELLSIZE = 8;//og 30
+const CELLPADDING = 0.1;//og 1
 
 const red = "rgba(255,51,51,0.9)";
 const teal = "rgba(51,255,255,0.9)";
@@ -83,10 +85,10 @@ function clearBoard(board) {
 function Board() {
     this.isGameOver = false;
     this.intensity = 1;
-    this._gridHeight = 25;
-    this._gridWidth = 12;
-    this._cellSize = 30;
-    this._cellPadding = 1;
+    this._gridHeight = GRIDHEIGHT;
+    this._gridWidth = GRIDWIDTH;
+    this._cellSize = CELLSIZE;
+    this._cellPadding = CELLPADDING;
     this.isEmpty = true;//this will invoke a place piece function
     this.currentPiece = undefined;
     this.command = undefined;//d,l,r,rr,rl,u
@@ -389,97 +391,6 @@ function Board() {
         }
 
     }
-    this.checkCollisionJ = function() {
-        let xpos = this.currentPiece._xPosition;
-        let ypos = this.currentPiece._yPosition;
-        switch (this.currentPiece._rotation) {//rotation
-            case 0:
-                switch (this.currentPiece._command) {//commands
-                    case "d":
-
-                        if ((this._board[xpos][ypos + 1] !== "empty") || (this._board[xpos - 1][ypos + 1] !== "empty") || (this._board[xpos + 1][ypos + 2] !== "empty")) {
-                            this.currentPiece._canMove = false;
-                            return;
-                        }
-                        break;
-                    case "l":
-                        break;
-                    case "r":
-                        break;
-                    case "u":
-                        break;
-                    case "rr":
-                        break;
-                    case "rl":
-                        break;
-                }
-                break;
-            case 1:
-                switch (this.currentPiece._command) {//commands
-                    case "d":
-
-                        if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos - 1][ypos + 2] !== "empty")) {
-                            this.currentPiece._canMove = false;
-                            return;
-                        }
-                        break;
-                    case "l":
-                        break;
-                    case "r":
-                        break;
-                    case "u":
-                        break;
-                    case "rr":
-                        break;
-                    case "rl":
-                        break;
-                }
-                break;
-            case 2:
-                switch (this.currentPiece._command) {//commands
-                    case "d":
-
-                        if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos - 1][ypos + 2] !== "empty") || (this._board[xpos+1][ypos + 2] !== "empty")) {
-                            this.currentPiece._canMove = false;
-                            return;
-                        }
-                        break;
-                    case "l":
-                        break;
-                    case "r":
-                        break;
-                    case "u":
-                        break;
-                    case "rr":
-                        break;
-                    case "rl":
-                        break;
-                }
-                break;
-            case 3:
-                switch (this.currentPiece._command) {//commands
-                    case "d":
-
-                        if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos + 1][ypos ] !== "empty")) {
-                            this.currentPiece._canMove = false;
-                            return;
-                        }
-                        break;
-                    case "l":
-                        break;
-                    case "r":
-                        break;
-                    case "u":
-                        break;
-                    case "rr":
-                        break;
-                    case "rl":
-                        break;
-                }
-                break;
-        }
-
-    }
     this.checkCollisionL = function() {
         let xpos = this.currentPiece._xPosition;
         let ypos = this.currentPiece._yPosition;
@@ -571,7 +482,7 @@ function Board() {
         }
 
     }
-    this.checkCollisionO = function() {
+    this.checkCollisionJ = function () {
         let xpos = this.currentPiece._xPosition;
         let ypos = this.currentPiece._yPosition;
         switch (this.currentPiece._rotation) {//rotation
@@ -579,7 +490,7 @@ function Board() {
                 switch (this.currentPiece._command) {//commands
                     case "d":
 
-                        if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos +1][ypos + 2] !== "empty")) {
+                        if ((this._board[xpos][ypos + 1] !== "empty") || (this._board[xpos - 1][ypos + 1] !== "empty") || (this._board[xpos + 1][ypos + 2] !== "empty")) {
                             this.currentPiece._canMove = false;
                             return;
                         }
@@ -597,6 +508,67 @@ function Board() {
                 }
                 break;
             case 1:
+                switch (this.currentPiece._command) {//commands
+                    case "d":
+
+                        if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos - 1][ypos + 2] !== "empty")) {
+                            this.currentPiece._canMove = false;
+                            return;
+                        }
+                        break;
+                    case "l":
+                        break;
+                    case "r":
+                        break;
+                    case "u":
+                        break;
+                    case "rr":
+                        break;
+                    case "rl":
+                        break;
+                }
+                break;
+            case 2:
+                switch (this.currentPiece._command) {//commands
+                    case "d":
+
+                        if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos - 1][ypos + 2] !== "empty") || (this._board[xpos + 1][ypos + 2] !== "empty")) {
+                            this.currentPiece._canMove = false;
+                            return;
+                        }
+                        break;
+                    case "l":
+                        break;
+                    case "r":
+                        break;
+                    case "u":
+                        break;
+                    case "rr":
+                        break;
+                    case "rl":
+                        break;
+                }
+                break;
+            case 3:
+                switch (this.currentPiece._command) {//commands
+                    case "d":
+
+                        if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos + 1][ypos] !== "empty")) {
+                            this.currentPiece._canMove = false;
+                            return;
+                        }
+                        break;
+                    case "l":
+                        break;
+                    case "r":
+                        break;
+                    case "u":
+                        break;
+                    case "rr":
+                        break;
+                    case "rl":
+                        break;
+                }
                 break;
         }
 
@@ -676,6 +648,74 @@ function Board() {
                 }
                 break;
             case 1:
+                switch (this.currentPiece._command) {//commands
+                    case "d":
+
+                        if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos +1][ypos] !== "empty")) {
+                            this.currentPiece._canMove = false;
+                            return;
+                        }
+                        break;
+                    case "l":
+                        break;
+                    case "r":
+                        break;
+                    case "u":
+                        break;
+                    case "rr":
+                        break;
+                    case "rl":
+                        break;
+                }
+                break;
+        }
+
+    }
+    this.checkCollisionO = function () {
+        let xpos = this.currentPiece._xPosition;
+        let ypos = this.currentPiece._yPosition;
+        switch (this.currentPiece._rotation) {//rotation
+            case 0:
+                switch (this.currentPiece._command) {//commands
+                    case "d":
+
+                        if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos + 1][ypos + 2] !== "empty")) {
+                            this.currentPiece._canMove = false;
+                            return;
+                        }
+                        break;
+                    case "l":
+                        break;
+                    case "r":
+                        break;
+                    case "u":
+                        break;
+                    case "rr":
+                        break;
+                    case "rl":
+                        break;
+                }
+                break;
+            case 1:
+                switch (this.currentPiece._command) {//commands
+                    case "d":
+
+                        if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos + 1][ypos + 2] !== "empty")) {
+                            this.currentPiece._canMove = false;
+                            return;
+                        }
+                        break;
+                    case "l":
+                        break;
+                    case "r":
+                        break;
+                    case "u":
+                        break;
+                    case "rr":
+                        break;
+                    case "rl":
+                        break;
+                }
                 break;
         }
 
@@ -695,8 +735,8 @@ function Board() {
 
 }
 function Piece() {
-    this._gridHeight = 25;
-    this._gridWidth = 12;
+    this._gridHeight = GRIDHEIGHT;//og25
+    this._gridWidth = GRIDWIDTH;//og12
 
     this._pieceType = undefined;//WARNING THIS IS OLD INFORMATION AND THEY USE CHARACTERS NOW 0===I , 1===T , 2===L , 3===J , 4===S , 5===Z , 6===BLOCK
     this._xPosition = undefined;// in relation to the main board
@@ -758,15 +798,24 @@ function Piece() {
                 this._rotation = Math.floor(2 * Math.random());
                 break;
             case 5:
+                this._rotation = Math.floor(2 * Math.random());
                 break;
             case 6:
+                this._rotation = Math.floor(2 * Math.random());
                 break;
         }
 
   
         //0===I , 1===T , 2===L , 3===J , 4===S , 5===Z , 6===O
-        this._xPosition = 5;// 
-        this._yPosition = 3;// 
+        this._xPosition = Math.floor(Math.random() * GRIDWIDTH);//og5 
+
+        if (this._xPosition < 3) {
+            this._xPosition = 3;
+        }
+        if (this._xPosition > GRIDWIDTH - 2) {
+            this._xPosition = GRIDWIDTH - 2;
+        }
+        this._yPosition = 3;// og3
         switch (num) {
             case 0://I piece
                 this._pieceType = "I";
@@ -824,6 +873,7 @@ function Piece() {
 
 
     }
+
     this.move = function () {
             this._boardCheck = clearBoard(this._boardCheck);
             switch (this._command) {
@@ -1004,6 +1054,11 @@ function Piece() {
                 this._boardCheck[this._xPosition + 1][this._yPosition + 1] = "green";
                 break;
             case 1:
+                this._boardCheck[this._xPosition][this._yPosition] = "green";
+                this._boardCheck[this._xPosition +1][this._yPosition] = "green";
+                this._boardCheck[this._xPosition+1][this._yPosition + 1] = "green";
+                this._boardCheck[this._xPosition][this._yPosition - 1] = "green";
+                break;
                 break;
         }
     }
@@ -1017,6 +1072,10 @@ function Piece() {
                 this._boardCheck[this._xPosition][this._yPosition + 1] = "yellow";
                 break;
             case 1:
+                this._boardCheck[this._xPosition][this._yPosition] = "yellow";
+                this._boardCheck[this._xPosition + 1][this._yPosition] = "yellow";
+                this._boardCheck[this._xPosition + 1][this._yPosition + 1] = "yellow";
+                this._boardCheck[this._xPosition][this._yPosition + 1] = "yellow";
                 break;
         }
     }
