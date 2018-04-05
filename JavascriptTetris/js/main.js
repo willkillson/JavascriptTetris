@@ -57,7 +57,7 @@ window.addEventListener('mousemove', function (event) {
 //    c.arc(x, y, 30, 0, 2 * Math.PI, false);
 //    c.stroke();
 //}
-const GRIDHEIGHT = 25;//og 25
+const GRIDHEIGHT = 100;//og 25
 const GRIDWIDTH = 70;//og 14
 const CELLSIZE = 8;//og 30
 const CELLPADDING = 0.1;//og 1
@@ -808,14 +808,16 @@ function Piece() {
   
         //0===I , 1===T , 2===L , 3===J , 4===S , 5===Z , 6===O
         this._xPosition = Math.floor(Math.random() * GRIDWIDTH);//og5 
+        this._yPosition = 3;// og3
+
 
         if (this._xPosition < 3) {
             this._xPosition = 3;
         }
-        if (this._xPosition > GRIDWIDTH - 2) {
-            this._xPosition = GRIDWIDTH - 2;
+        if (this._xPosition > GRIDWIDTH - 3) {
+            this._xPosition = GRIDWIDTH - 3;
         }
-        this._yPosition = 3;// og3
+
         switch (num) {
             case 0://I piece
                 this._pieceType = "I";
@@ -1099,12 +1101,12 @@ function animate() {
     requestAnimationFrame(animate);
     c.clearRect(0, 0, canvas.width, canvas.height);
     c.beginPath();
-    c.fillStyle = 'white';
+    c.fillStyle = 'black';
     c.fillRect(0, 0, canvas.width,canvas.height);
     c.stroke();
     c.beginPath();
     c.fillStyle = `rgba(160,160,160,0.5)`;
-    c.fillRect(0, 0, 12 * 31-1, (26 * 30)-5);
+    c.fillRect(0, 0, CELLSIZE * GRIDWIDTH, CELLSIZE * GRIDHEIGHT);
     c.stroke();
 
 
