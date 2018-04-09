@@ -11,14 +11,7 @@ canvas.height = window.innerHeight - 2;
 
 var c = canvas.getContext('2d');
 
-var mouse = {
-    x: undefined, y: undefined
-}
-window.addEventListener('mousemove', function (event) {
-    mouse.x = event.x;
-    mouse.y = event.y;
-    //console.log(mouse.x + " " + mouse.y);
-});
+
 //////////////////////////////////////////line drawing
 //line
 //c.beginPath();
@@ -57,6 +50,20 @@ window.addEventListener('mousemove', function (event) {
 //    c.arc(x, y, 30, 0, 2 * Math.PI, false);
 //    c.stroke();
 //}
+//var mouse = {
+//    x: undefined, y: undefined
+//}
+//window.addEventListener('mousemove', function (event) {
+//    mouse.x = event.x;
+//    mouse.y = event.y;
+//    //console.log(mouse.x + " " + mouse.y);
+//});
+
+
+//
+
+
+
 const GRIDHEIGHT = 25;//og 25
 const GRIDWIDTH = 14;//og 14
 const CELLSIZE = 30;//og 30
@@ -1095,28 +1102,30 @@ function Piece() {
 }
 
 
-
 var board = new Board();
-function animate() {
-    requestAnimationFrame(animate);
-    c.clearRect(0, 0, canvas.width, canvas.height);
-    c.beginPath();
-    c.fillStyle = 'black';
-    c.fillRect(0, 0, canvas.width,canvas.height);
-    c.stroke();
-    c.beginPath();
-    c.fillStyle = `rgba(160,160,160,0.5)`;
-    c.fillRect(0, 0, CELLSIZE * GRIDWIDTH, CELLSIZE * GRIDHEIGHT);
-    c.stroke();
 
+var timestep = 1000 / 60;//1000ms/60fps = 16.667 ms per frame every time
+var totalframes = 0;
+function mainloop() {
+    totalframes++;
 
+    if (totalframes % Math.floor(timestep) === 0) {
+        c.clearRect(0, 0, canvas.width, canvas.height);
+        c.beginPath();
+        c.fillStyle = 'black';
+        c.fillRect(0, 0, canvas.width, canvas.height);
+        c.stroke();
+        c.beginPath();
+        c.fillStyle = `rgba(160,160,160,0.5)`;
+        c.fillRect(0, 0, CELLSIZE * GRIDWIDTH, CELLSIZE * GRIDHEIGHT);
+        c.stroke();
 
-
-    board.update(); //update the board and pieces
-    if (board.isGameOver) {
-        board = new Board();
+        board.update(); //update the board and pieces
+        if (board.isGameOver) {
+            board = new Board();
+        }
     }
-
+    requestAnimationFrame(mainloop);
 }
 
-animate();
+requestAnimationFrame(mainloop);
