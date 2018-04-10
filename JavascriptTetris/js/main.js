@@ -65,7 +65,7 @@ var c = canvas.getContext('2d');
 
 
 const GRIDHEIGHT = 25;//og 25
-const GRIDWIDTH = 14;//og 14
+const GRIDWIDTH = 12;//og 12
 const CELLSIZE = 30;//og 30
 const CELLPADDING = 1;//og 1
 
@@ -116,6 +116,11 @@ function Board() {
             this._board[i][this._gridHeight - 1] = "boarder";
         }
     }
+    
+    this._lines = new Array(this._gridHeight);//lines for counting when we have a tetris
+    for (let i = 0; i < this._lines.length; i++) {
+        this._lines[i] = 0;
+    }
     /////////////////MAIN BOARD Initialization
 
     this.update = function () {
@@ -163,7 +168,9 @@ function Board() {
         }
        
 
-        
+        this.countLineCells();
+        this.shiftStackLines();
+
         this.draw(); //redraw everything
 
     }
@@ -836,6 +843,53 @@ function Board() {
         }
     }
 
+    this.countLineCells= function()
+    {
+        let count = 0;
+        for (i = this._gridHeight; i > 4; i--) {
+            for (j = 1; j < this._gridWidth-1; j++) {
+                if (this._board[j][i] !== "empty") {		//clear line array 10- = things are in there
+                    count++;
+                }
+            }
+            this._lines[i] = count;
+            count = 0;
+        }
+    }
+    this.shiftStackLines = function () {
+
+        let i = 0;
+        let j = 0;
+        let k = 0;
+        let zero = 0;
+        let one = 1;
+
+
+        for (let i = 0; i < board._gridHeight - 1; i++) {
+            if (this._lines[i] == 10) {
+                k = i;
+                k = k - 4;
+                while (k != 0) {
+                    for (j = 1; j < 11; j++) {
+                        if ((i - zero) < 4) {
+                            break;
+                        }
+                        this._board[j][i - zero] = this._board[j][i - one];
+                        this._board[j][i - one] = "empty";
+                    }
+                    zero++;
+                    one++;
+                    k--;
+
+                }
+            }
+        }
+
+
+
+
+
+    }
 
 
 }
@@ -1367,6 +1421,12 @@ var totalframes = 0;
 function mainloop() {
     totalframes++;
 
+    if (key === "p") {
+        for (let i = 0; i < board._gridHeight-1; i++) {
+            console.log(board._lines[i]);
+        }
+    }
+
     board.command = key;
     c.clearRect(0, 0, canvas.width, canvas.height);
     c.beginPath();
@@ -1382,6 +1442,8 @@ function mainloop() {
     if (board.isGameOver) {
         board = new Board();
     }
+
+    
 
     key = undefined;
 
