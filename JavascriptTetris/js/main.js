@@ -135,19 +135,37 @@ function Board() {
             this.command = "d";
         }
         this.currentPiece._command = this.command;// pass the command to the piece
-        this.checkCollision(); // check the collision of the piece vs the board
 
-        if (this.currentPiece._canMove === true) {// if everything is good, then move the current piece
-            this.isGameOver = false;
-            this.currentPiece.move();
+        if (this.currentPiece._command === "w") {
+            while (this.currentPiece._isDownBlocked === false) {
+                this.checkCollision(); // check the collision of the piece vs the board
+                if (this.currentPiece._canMove === true) {// if everything is good, then move the current piece
+                    this.currentPiece.move();
+                    this.currentPiece.update();
+                }
+                else {
+                    break;
+                }
+    
+            }
         }
-        else if (this.currentPiece._canMove===false) {
-            this.setBoard();// 
-            this.currentPiece._isSet = true;
+        else {
+            this.checkCollision(); // check the collision of the piece vs the board
+            if (this.currentPiece._canMove === true) {// if everything is good, then move the current piece
+                this.isGameOver = false;
+                this.currentPiece.move();
+            }
+            else if (this.currentPiece._canMove === false) {
+                this.setBoard();// 
+                this.currentPiece._isSet = true;
+            }
+            this.currentPiece.update();
+        }
+       
 
-        }
-        this.currentPiece.update();
+        
         this.draw(); //redraw everything
+
     }
     this.draw = function () {
 
@@ -259,7 +277,6 @@ function Board() {
             case 0:
                 switch (this.currentPiece._command) {//commands
                     case "s":
-
                         if ((this._board[xpos][ypos + 1] !== "empty") || (this._board[xpos - 1][ypos + 1] !== "empty") || (this._board[xpos + 1][ypos + 1] !== "empty") || (this._board[xpos + 2][ypos + 1] !== "empty")){
                             this.currentPiece._canMove = false;
                             return;
@@ -270,6 +287,10 @@ function Board() {
                     case "d":
                         break;
                     case "w":
+                        if ((this._board[xpos][ypos + 1] !== "empty") || (this._board[xpos - 1][ypos + 1] !== "empty") || (this._board[xpos + 1][ypos + 1] !== "empty") || (this._board[xpos + 2][ypos + 1] !== "empty")) {
+                            this.currentPiece._canMove = false;
+                            return;
+                        }
                         break;
                     case "k":
                         break;
@@ -291,6 +312,10 @@ function Board() {
                     case "d":
                         break;
                     case "w":
+                        if ((this._board[xpos + 1][ypos + 2] !== "empty")) {
+                            this.currentPiece._canMove = false;
+                            return;
+                        }
                         break;
                     case "k":
                         break;
@@ -324,6 +349,10 @@ function Board() {
                     case "d":
                         break;
                     case "w":
+                        if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos - 1][ypos + 1] !== "empty") || (this._board[xpos + 1][ypos + 1] !== "empty")) {
+                            this.currentPiece._canMove = false;
+                            return;
+                        }
                         break;
                     case "k":
                         break;
@@ -345,6 +374,10 @@ function Board() {
                     case "d":
                         break;
                     case "w":
+                        if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos - 1][ypos + 1] !== "empty")) {
+                            this.currentPiece._canMove = false;
+                            return;
+                        }
                         break;
                     case "k":
                         break;
@@ -366,6 +399,10 @@ function Board() {
                     case "d":
                         break;
                     case "w":
+                        if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos - 1][ypos + 2] !== "empty") || (this._board[xpos + 1][ypos + 2] !== "empty")) {
+                            this.currentPiece._canMove = false;
+                            return;
+                        }
                         break;
                     case "k":
                         break;
@@ -387,6 +424,10 @@ function Board() {
                     case "d":
                         break;
                     case "w":
+                        if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos + 1][ypos + 1] !== "empty")) {
+                            this.currentPiece._canMove = false;
+                            return;
+                        }
                         break;
                     case "k":
                         break;
@@ -416,6 +457,10 @@ function Board() {
                     case "d":
                         break;
                     case "w":
+                        if ((this._board[xpos][ypos + 1] !== "empty") || (this._board[xpos + 1][ypos + 1] !== "empty") || (this._board[xpos - 1][ypos + 2] !== "empty")) {
+                            this.currentPiece._canMove = false;
+                            return;
+                        }
                         break;
                     case "k":
                         break;
@@ -437,6 +482,11 @@ function Board() {
                     case "d":
                         break;
                     case "w":
+
+                        if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos - 1][ypos] !== "empty")) {
+                            this.currentPiece._canMove = false;
+                            return;
+                        }
                         break;
                     case "k":
                         break;
@@ -458,6 +508,10 @@ function Board() {
                     case "d":
                         break;
                     case "w":
+                        if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos + 1][ypos + 2] !== "empty") || (this._board[xpos - 1][ypos + 2] !== "empty")) {
+                            this.currentPiece._canMove = false;
+                            return;
+                        }
                         break;
                     case "k":
                         break;
@@ -479,6 +533,10 @@ function Board() {
                     case "d":
                         break;
                     case "w":
+                        if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos + 1][ypos + 2] !== "empty")) {
+                            this.currentPiece._canMove = false;
+                            return;
+                        }
                         break;
                     case "k":
                         break;
@@ -507,6 +565,10 @@ function Board() {
                     case "d":
                         break;
                     case "w":
+                        if ((this._board[xpos][ypos + 1] !== "empty") || (this._board[xpos - 1][ypos + 1] !== "empty") || (this._board[xpos + 1][ypos + 2] !== "empty")) {
+                            this.currentPiece._canMove = false;
+                            return;
+                        }
                         break;
                     case "k":
                         break;
@@ -528,6 +590,10 @@ function Board() {
                     case "d":
                         break;
                     case "w":
+                        if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos - 1][ypos + 2] !== "empty")) {
+                            this.currentPiece._canMove = false;
+                            return;
+                        }
                         break;
                     case "k":
                         break;
@@ -549,6 +615,10 @@ function Board() {
                     case "d":
                         break;
                     case "w":
+                        if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos - 1][ypos + 2] !== "empty") || (this._board[xpos + 1][ypos + 2] !== "empty")) {
+                            this.currentPiece._canMove = false;
+                            return;
+                        }
                         break;
                     case "k":
                         break;
@@ -570,6 +640,10 @@ function Board() {
                     case "d":
                         break;
                     case "w":
+                        if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos + 1][ypos] !== "empty")) {
+                            this.currentPiece._canMove = false;
+                            return;
+                        }
                         break;
                     case "k":
                         break;
@@ -598,6 +672,10 @@ function Board() {
                     case "d":
                         break;
                     case "w":
+                        if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos - 1][ypos + 2] !== "empty") || (this._board[xpos + 1][ypos + 1] !== "empty")) {
+                            this.currentPiece._canMove = false;
+                            return;
+                        }
                         break;
                     case "k":
                         break;
@@ -619,6 +697,10 @@ function Board() {
                     case "d":
                         break;
                     case "w":
+                        if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos - 1][ypos + 1] !== "empty")) {
+                            this.currentPiece._canMove = false;
+                            return;
+                        }
                         break;
                     case "k":
                         break;
@@ -647,6 +729,10 @@ function Board() {
                     case "d":
                         break;
                     case "w":
+                        if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos - 1][ypos + 1] !== "empty") || (this._board[xpos + 1][ypos + 2] !== "empty")) {
+                            this.currentPiece._canMove = false;
+                            return;
+                        }
                         break;
                     case "k":
                         break;
@@ -668,6 +754,10 @@ function Board() {
                     case "d":
                         break;
                     case "w":
+                        if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos + 1][ypos] !== "empty")) {
+                            this.currentPiece._canMove = false;
+                            return;
+                        }
                         break;
                     case "k":
                         break;
@@ -696,6 +786,10 @@ function Board() {
                     case "d":
                         break;
                     case "w":
+                        if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos + 1][ypos + 2] !== "empty")) {
+                            this.currentPiece._canMove = false;
+                            return;
+                        }
                         break;
                     case "k":
                         break;
@@ -717,6 +811,10 @@ function Board() {
                     case "d":
                         break;
                     case "w":
+                        if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos + 1][ypos + 2] !== "empty")) {
+                            this.currentPiece._canMove = false;
+                            return;
+                        }
                         break;
                     case "k":
                         break;
@@ -765,7 +863,7 @@ function Piece() {
     }
     this.generateNewPiece = function () {
         let num = Math.floor(7 * Math.random());
-        //num = 0;
+        
 
         for (let i = 0; i < this._gridWidth; i++) {
             //////board set up
@@ -819,6 +917,9 @@ function Piece() {
 
         this._xPosition = 5;
         this._yPosition = 3;// og3
+        this._rotation = 0;
+        //num = 0;
+
 
         if (this._xPosition < 3) {
             this._xPosition = 3;
@@ -901,11 +1002,60 @@ function Piece() {
                 case "d":
                     this._xPosition += 1;
                     break;
+                case "j":
+                    this.moveRotate();
+                    break;
+                case "k":
+                    this.moveRotate();
+                    break;
             }
         
 
     }
-
+    this.moveRotate = function () {
+        switch (this._pieceType) {
+            case "I":
+                switch (this._rotation) {
+                    case 0:
+                        this._rotation = 1;
+                        break;
+                    case 1:
+                        this._rotation = 0;
+                        break;
+                }
+                break;
+            case "J":
+                break;
+            case "L":
+                this.checkCollisionL();
+                break;
+            case "O":
+                break;
+            case "S":
+                switch (this._rotation) {
+                    case 0:
+                        this._rotation = 1;
+                        break;
+                    case 1:
+                        this._rotation = 0;
+                        break;
+                }
+                break;
+            case "Z":
+                switch (this._rotation) {
+                    case 0:
+                        this._rotation = 1;
+                        break;
+                    case 1:
+                        this._rotation = 0;
+                        break;
+                }
+                break;
+            case "T":
+                this.checkCollisionT();
+                break;
+        }
+    }
 
     this.update = function () {
         switch (this._pieceType) {//0===I , 1===T , 2===L , 3===J , 4===S , 5===Z , 6===BLOCK
@@ -1116,48 +1266,20 @@ var totalframes = 0;
 function mainloop() {
     totalframes++;
 
+    board.command = key;
+    c.clearRect(0, 0, canvas.width, canvas.height);
+    c.beginPath();
+    c.fillStyle = 'black';
+    c.fillRect(0, 0, canvas.width, canvas.height);
+    c.stroke();
+    c.beginPath();
+    c.fillStyle = `rgba(160,160,160,0.5)`;
+    c.fillRect(0, 0, CELLSIZE * GRIDWIDTH, CELLSIZE * GRIDHEIGHT);
+    c.stroke();
 
-
-    if (totalframes % Math.floor(timestep) === 0) {
-        if (key === undefined) {
-            key = "s";
-        }
-        board.command = key;
-        c.clearRect(0, 0, canvas.width, canvas.height);
-        c.beginPath();
-        c.fillStyle = 'black';
-        c.fillRect(0, 0, canvas.width, canvas.height);
-        c.stroke();
-        c.beginPath();
-        c.fillStyle = `rgba(160,160,160,0.5)`;
-        c.fillRect(0, 0, CELLSIZE * GRIDWIDTH, CELLSIZE * GRIDHEIGHT);
-        c.stroke();
-
-        board.update(); //update the board and pieces
-        if (board.isGameOver) {
-            board = new Board();
-        }
-
-        key = "s";
-    }
-    else if (key!== undefined) {
-        board.command = key;
-        c.clearRect(0, 0, canvas.width, canvas.height);
-        c.beginPath();
-        c.fillStyle = 'black';
-        c.fillRect(0, 0, canvas.width, canvas.height);
-        c.stroke();
-        c.beginPath();
-        c.fillStyle = `rgba(160,160,160,0.5)`;
-        c.fillRect(0, 0, CELLSIZE * GRIDWIDTH, CELLSIZE * GRIDHEIGHT);
-        c.stroke();
-
-        board.update(); //update the board and pieces
-        if (board.isGameOver) {
-            board = new Board();
-        }
-
-        key = "s";
+    board.update(); //update the board and pieces
+    if (board.isGameOver) {
+        board = new Board();
     }
 
     key = undefined;
