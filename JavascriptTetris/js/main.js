@@ -918,7 +918,7 @@ function Piece() {
         this._xPosition = 5;
         this._yPosition = 3;// og3
         this._rotation = 0;
-        //num = 0;
+       //num = 3;
 
 
         if (this._xPosition < 3) {
@@ -1003,16 +1003,16 @@ function Piece() {
                     this._xPosition += 1;
                     break;
                 case "j":
-                    this.moveRotate();
+                    this.moveRotate("left");
                     break;
                 case "k":
-                    this.moveRotate();
+                    this.moveRotate("right");
                     break;
             }
         
 
     }
-    this.moveRotate = function () {
+    this.moveRotate = function (dir) {
         switch (this._pieceType) {
             case "I":
                 switch (this._rotation) {
@@ -1025,9 +1025,77 @@ function Piece() {
                 }
                 break;
             case "J":
+                if (dir === "left") {
+
+                    switch (this._rotation) {
+                        case 0:
+                            this._rotation = 3;
+                            break;
+                        case 1:
+                            this._rotation = 0;
+                            break;
+                        case 2:
+                            this._rotation = 1;
+                            break;
+                        case 3:
+                            this._rotation = 2;
+                            break;
+                    }
+
+                }
+                else if (dir === "right") {
+                    switch (this._rotation) {
+                        case 0:
+                            this._rotation = 1;
+                            break;
+                        case 1:
+                            this._rotation = 2;
+                            break;
+                        case 2:
+                            this._rotation = 3;
+                            break;
+                        case 3:
+                            this._rotation = 0;
+                            break;
+                    }
+                }
+
                 break;
             case "L":
-                this.checkCollisionL();
+                if (dir === "left") {
+
+                    switch (this._rotation) {
+                        case 0:
+                            this._rotation = 3;
+                            break;
+                        case 1:
+                            this._rotation = 0;
+                            break;
+                        case 2:
+                            this._rotation = 1;
+                            break;
+                        case 3:
+                            this._rotation = 2;
+                            break;
+                    }
+
+                }
+                else if (dir === "right") {
+                    switch (this._rotation) {
+                        case 0:
+                            this._rotation = 1;
+                            break;
+                        case 1:
+                            this._rotation = 2;
+                            break;
+                        case 2:
+                            this._rotation = 3;
+                            break;
+                        case 3:
+                            this._rotation = 0;
+                            break;
+                    }
+                }
                 break;
             case "O":
                 break;
@@ -1052,7 +1120,40 @@ function Piece() {
                 }
                 break;
             case "T":
-                this.checkCollisionT();
+                if (dir === "left") {
+
+                    switch (this._rotation) {
+                        case 0:
+                            this._rotation = 3;
+                            break;
+                        case 1:
+                            this._rotation = 0;
+                            break;
+                        case 2:
+                            this._rotation = 1;
+                            break;
+                        case 3:
+                            this._rotation = 2;
+                            break;
+                    }
+
+                }
+                else if (dir === "right") {
+                    switch (this._rotation) {
+                        case 0:
+                            this._rotation = 1;
+                            break;
+                        case 1:
+                            this._rotation = 2;
+                            break;
+                        case 2:
+                            this._rotation = 3;
+                            break;
+                        case 3:
+                            this._rotation = 0;
+                            break;
+                    }
+                }
                 break;
         }
     }
@@ -1172,7 +1273,7 @@ function Piece() {
                 this._boardCheck[this._xPosition][this._yPosition] = "blue";
                 this._boardCheck[this._xPosition][this._yPosition+1] = "blue";
                 this._boardCheck[this._xPosition][this._yPosition-1] = "blue";
-                this._boardCheck[this._xPosition-1][this._yPosition] = "blue";
+                this._boardCheck[this._xPosition-1][this._yPosition+1] = "blue";
                 break;
             case 2:
                 this._boardCheck[this._xPosition][this._yPosition+1] = "blue";
