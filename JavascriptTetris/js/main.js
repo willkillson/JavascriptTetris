@@ -78,6 +78,9 @@ const green = "rgba(51,255,51,0.9)";
 const yellow = "rgba(255,255,51,0.9)";
 const black = "rgba(0,0,0,0.9)";
 
+
+
+
 function clearBoard(board) {
     let v = board;
     for (let i = 0; i < GRIDWIDTH; i++) {
@@ -99,6 +102,7 @@ function Board() {
     this.isEmpty = true;//this will invoke a place piece function
     this.currentPiece = undefined;
     this.command = "s";//d,l,r,rr,rl,u
+    this.score = 0;
 
     /////////////////MAIN BOARD Initialization 
     this._board = new Array(this._gridWidth);//creating the multidem array in javascript <3
@@ -140,31 +144,22 @@ function Board() {
             this.command = "d";
         }
         this.currentPiece._command = this.command;// pass the command to the piece
-
         if (this.currentPiece._command === "w") {
+            if (this.currentPiece._isDownBlocked === true) {
+                this.setBoard();// 
+            }
+
             while (this.currentPiece._isDownBlocked === false) {
-                this.checkCollision(); // check the collision of the piece vs the board
-                if (this.currentPiece._canMove === true) {// if everything is good, then move the current piece
-                    this.currentPiece.move();
-                    this.currentPiece.update();
-                }
-                else {
-                    break;
-                }
-    
+                this.processCommand();
             }
         }
         else {
-            this.checkCollision(); // check the collision of the piece vs the board
-            if (this.currentPiece._canMove === true) {// if everything is good, then move the current piece
-                this.isGameOver = false;
-                this.currentPiece.move();
-            }
-            else if (this.currentPiece._canMove === false) {
+            if ((this.currentPiece._isDownBlocked === true)&& (this.command==="s")) {
                 this.setBoard();// 
-                this.currentPiece._isSet = true;
             }
-            this.currentPiece.update();
+            else {
+                this.processCommand();
+            }
         }
        
 
@@ -241,17 +236,34 @@ function Board() {
 
                 c.fillRect(i * this._cellSize + this._cellPadding * i, j * this._cellSize + j * this._cellPadding, this._cellSize, this._cellSize);
                 c.stroke();
+
+
+
+
+
             }
         }
 
 
 
 
+
+    }
+
+    this.processCommand = function () {
+        this.checkCollision(); // check the collision of the piece vs the board
+        this.currentPiece.move();
+        this.currentPiece.update();
+        this.checkCollision(); // check the collision of the piece vs the board
     }
 
     this.checkCollision = function () {
         //checks the collisions between  this._board[][] and _currentPiece._boardCheck[][]
         //then flags either 
+        this._isDownBlocked = false;
+        this._isLeftBlocked = false;
+        this._isRightBlocked = false;
+        this._isUpBlocked = false;
             switch (this.currentPiece._pieceType) {
                 case "I":
                     this.checkCollisionI();
@@ -284,8 +296,8 @@ function Board() {
             case 0:
                 switch (this.currentPiece._command) {//commands
                     case "s":
-                        if ((this._board[xpos][ypos + 1] !== "empty") || (this._board[xpos - 1][ypos + 1] !== "empty") || (this._board[xpos + 1][ypos + 1] !== "empty") || (this._board[xpos + 2][ypos + 1] !== "empty")){
-                            this.currentPiece._canMove = false;
+                        if ((this._board[xpos][ypos + 1] !== "empty") || (this._board[xpos - 1][ypos + 1] !== "empty") || (this._board[xpos + 1][ypos + 1] !== "empty") || (this._board[xpos + 2][ypos + 1] !== "empty")) {
+                            this.currentPiece._isDownBlocked = true;
                             return;
                         }
                         break;
@@ -295,7 +307,7 @@ function Board() {
                         break;
                     case "w":
                         if ((this._board[xpos][ypos + 1] !== "empty") || (this._board[xpos - 1][ypos + 1] !== "empty") || (this._board[xpos + 1][ypos + 1] !== "empty") || (this._board[xpos + 2][ypos + 1] !== "empty")) {
-                            this.currentPiece._canMove = false;
+                            this.currentPiece._isDownBlocked = true;
                             return;
                         }
                         break;
@@ -310,7 +322,7 @@ function Board() {
                     case "s":
 
                         if ((this._board[xpos+1][ypos + 2] !== "empty")) {
-                            this.currentPiece._canMove = false;
+                            this.currentPiece._isDownBlocked = true;
                             return;
                         }
                         break;
@@ -320,7 +332,7 @@ function Board() {
                         break;
                     case "w":
                         if ((this._board[xpos + 1][ypos + 2] !== "empty")) {
-                            this.currentPiece._canMove = false;
+                            this.currentPiece._isDownBlocked = true;
                             return;
                         }
                         break;
@@ -347,7 +359,7 @@ function Board() {
                     case "s":
 
                         if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos - 1][ypos + 1] !== "empty") || (this._board[xpos + 1][ypos + 1] !== "empty")) {
-                            this.currentPiece._canMove = false;
+                           this.currentPiece._isDownBlocked = true;
                             return;
                         }
                         break;
@@ -357,7 +369,7 @@ function Board() {
                         break;
                     case "w":
                         if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos - 1][ypos + 1] !== "empty") || (this._board[xpos + 1][ypos + 1] !== "empty")) {
-                            this.currentPiece._canMove = false;
+                           this.currentPiece._isDownBlocked = true;
                             return;
                         }
                         break;
@@ -372,7 +384,7 @@ function Board() {
                     case "s":
 
                         if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos - 1][ypos + 1] !== "empty")) {
-                            this.currentPiece._canMove = false;
+                           this.currentPiece._isDownBlocked = true;
                             return;
                         }
                         break;
@@ -382,7 +394,7 @@ function Board() {
                         break;
                     case "w":
                         if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos - 1][ypos + 1] !== "empty")) {
-                            this.currentPiece._canMove = false;
+                           this.currentPiece._isDownBlocked = true;
                             return;
                         }
                         break;
@@ -397,7 +409,7 @@ function Board() {
                     case "s":
 
                         if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos - 1][ypos + 2] !== "empty") || (this._board[xpos + 1][ypos +2] !== "empty")) {
-                            this.currentPiece._canMove = false;
+                           this.currentPiece._isDownBlocked = true;
                             return;
                         }
                         break;
@@ -407,7 +419,7 @@ function Board() {
                         break;
                     case "w":
                         if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos - 1][ypos + 2] !== "empty") || (this._board[xpos + 1][ypos + 2] !== "empty")) {
-                            this.currentPiece._canMove = false;
+                           this.currentPiece._isDownBlocked = true;
                             return;
                         }
                         break;
@@ -422,7 +434,7 @@ function Board() {
                     case "s":
 
                         if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos + 1][ypos + 1] !== "empty")) {
-                            this.currentPiece._canMove = false;
+                           this.currentPiece._isDownBlocked = true;
                             return;
                         }
                         break;
@@ -432,7 +444,7 @@ function Board() {
                         break;
                     case "w":
                         if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos + 1][ypos + 1] !== "empty")) {
-                            this.currentPiece._canMove = false;
+                           this.currentPiece._isDownBlocked = true;
                             return;
                         }
                         break;
@@ -455,7 +467,7 @@ function Board() {
                     case "s":
 
                         if ((this._board[xpos][ypos + 1] !== "empty") || (this._board[xpos + 1][ypos + 1] !== "empty") || (this._board[xpos - 1][ypos + 2] !== "empty")) {
-                            this.currentPiece._canMove = false;
+                           this.currentPiece._isDownBlocked = true;
                             return;
                         }
                         break;
@@ -465,7 +477,7 @@ function Board() {
                         break;
                     case "w":
                         if ((this._board[xpos][ypos + 1] !== "empty") || (this._board[xpos + 1][ypos + 1] !== "empty") || (this._board[xpos - 1][ypos + 2] !== "empty")) {
-                            this.currentPiece._canMove = false;
+                           this.currentPiece._isDownBlocked = true;
                             return;
                         }
                         break;
@@ -480,7 +492,7 @@ function Board() {
                     case "s":
 
                         if ((this._board[xpos][ypos+2] !== "empty") || (this._board[xpos - 1][ypos] !== "empty")) {
-                            this.currentPiece._canMove = false;
+                           this.currentPiece._isDownBlocked = true;
                             return;
                         }
                         break;
@@ -491,7 +503,7 @@ function Board() {
                     case "w":
 
                         if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos - 1][ypos] !== "empty")) {
-                            this.currentPiece._canMove = false;
+                           this.currentPiece._isDownBlocked = true;
                             return;
                         }
                         break;
@@ -506,7 +518,7 @@ function Board() {
                     case "s":
 
                         if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos + 1][ypos + 2] !== "empty") || (this._board[xpos - 1][ypos + 2] !== "empty")) {
-                            this.currentPiece._canMove = false;
+                           this.currentPiece._isDownBlocked = true;
                             return;
                         }
                         break;
@@ -516,7 +528,7 @@ function Board() {
                         break;
                     case "w":
                         if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos + 1][ypos + 2] !== "empty") || (this._board[xpos - 1][ypos + 2] !== "empty")) {
-                            this.currentPiece._canMove = false;
+                           this.currentPiece._isDownBlocked = true;
                             return;
                         }
                         break;
@@ -531,7 +543,7 @@ function Board() {
                     case "s":
 
                         if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos + 1][ypos + 2] !== "empty")) {
-                            this.currentPiece._canMove = false;
+                           this.currentPiece._isDownBlocked = true;
                             return;
                         }
                         break;
@@ -541,7 +553,7 @@ function Board() {
                         break;
                     case "w":
                         if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos + 1][ypos + 2] !== "empty")) {
-                            this.currentPiece._canMove = false;
+                           this.currentPiece._isDownBlocked = true;
                             return;
                         }
                         break;
@@ -563,7 +575,7 @@ function Board() {
                     case "s":
 
                         if ((this._board[xpos][ypos + 1] !== "empty") || (this._board[xpos - 1][ypos + 1] !== "empty") || (this._board[xpos + 1][ypos + 2] !== "empty")) {
-                            this.currentPiece._canMove = false;
+                           this.currentPiece._isDownBlocked = true;
                             return;
                         }
                         break;
@@ -573,7 +585,7 @@ function Board() {
                         break;
                     case "w":
                         if ((this._board[xpos][ypos + 1] !== "empty") || (this._board[xpos - 1][ypos + 1] !== "empty") || (this._board[xpos + 1][ypos + 2] !== "empty")) {
-                            this.currentPiece._canMove = false;
+                           this.currentPiece._isDownBlocked = true;
                             return;
                         }
                         break;
@@ -588,7 +600,7 @@ function Board() {
                     case "s":
 
                         if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos - 1][ypos + 2] !== "empty")) {
-                            this.currentPiece._canMove = false;
+                           this.currentPiece._isDownBlocked = true;
                             return;
                         }
                         break;
@@ -598,7 +610,7 @@ function Board() {
                         break;
                     case "w":
                         if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos - 1][ypos + 2] !== "empty")) {
-                            this.currentPiece._canMove = false;
+                           this.currentPiece._isDownBlocked = true;
                             return;
                         }
                         break;
@@ -613,7 +625,7 @@ function Board() {
                     case "s":
 
                         if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos - 1][ypos + 2] !== "empty") || (this._board[xpos + 1][ypos + 2] !== "empty")) {
-                            this.currentPiece._canMove = false;
+                           this.currentPiece._isDownBlocked = true;
                             return;
                         }
                         break;
@@ -623,7 +635,7 @@ function Board() {
                         break;
                     case "w":
                         if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos - 1][ypos + 2] !== "empty") || (this._board[xpos + 1][ypos + 2] !== "empty")) {
-                            this.currentPiece._canMove = false;
+                           this.currentPiece._isDownBlocked = true;
                             return;
                         }
                         break;
@@ -638,7 +650,7 @@ function Board() {
                     case "s":
 
                         if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos + 1][ypos] !== "empty")) {
-                            this.currentPiece._canMove = false;
+                           this.currentPiece._isDownBlocked = true;
                             return;
                         }
                         break;
@@ -648,7 +660,7 @@ function Board() {
                         break;
                     case "w":
                         if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos + 1][ypos] !== "empty")) {
-                            this.currentPiece._canMove = false;
+                           this.currentPiece._isDownBlocked = true;
                             return;
                         }
                         break;
@@ -670,7 +682,7 @@ function Board() {
                     case "s":
 
                         if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos - 1][ypos + 2] !== "empty") || (this._board[xpos + 1][ypos + 1] !== "empty")) {
-                            this.currentPiece._canMove = false;
+                           this.currentPiece._isDownBlocked = true;
                             return;
                         }
                         break;
@@ -680,7 +692,7 @@ function Board() {
                         break;
                     case "w":
                         if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos - 1][ypos + 2] !== "empty") || (this._board[xpos + 1][ypos + 1] !== "empty")) {
-                            this.currentPiece._canMove = false;
+                           this.currentPiece._isDownBlocked = true;
                             return;
                         }
                         break;
@@ -695,7 +707,7 @@ function Board() {
                     case "s":
 
                         if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos - 1][ypos + 1] !== "empty")) {
-                            this.currentPiece._canMove = false;
+                           this.currentPiece._isDownBlocked = true;
                             return;
                         }
                         break;
@@ -705,7 +717,7 @@ function Board() {
                         break;
                     case "w":
                         if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos - 1][ypos + 1] !== "empty")) {
-                            this.currentPiece._canMove = false;
+                           this.currentPiece._isDownBlocked = true;
                             return;
                         }
                         break;
@@ -727,7 +739,7 @@ function Board() {
                     case "s":
 
                         if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos - 1][ypos + 1] !== "empty") || (this._board[xpos + 1][ypos + 2] !== "empty") ) {
-                            this.currentPiece._canMove = false;
+                           this.currentPiece._isDownBlocked = true;
                             return;
                         }
                         break;
@@ -737,7 +749,7 @@ function Board() {
                         break;
                     case "w":
                         if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos - 1][ypos + 1] !== "empty") || (this._board[xpos + 1][ypos + 2] !== "empty")) {
-                            this.currentPiece._canMove = false;
+                           this.currentPiece._isDownBlocked = true;
                             return;
                         }
                         break;
@@ -752,7 +764,7 @@ function Board() {
                     case "s":
 
                         if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos +1][ypos] !== "empty")) {
-                            this.currentPiece._canMove = false;
+                           this.currentPiece._isDownBlocked = true;
                             return;
                         }
                         break;
@@ -762,7 +774,7 @@ function Board() {
                         break;
                     case "w":
                         if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos + 1][ypos] !== "empty")) {
-                            this.currentPiece._canMove = false;
+                           this.currentPiece._isDownBlocked = true;
                             return;
                         }
                         break;
@@ -784,7 +796,7 @@ function Board() {
                     case "s":
 
                         if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos + 1][ypos + 2] !== "empty")) {
-                            this.currentPiece._canMove = false;
+                           this.currentPiece._isDownBlocked = true;
                             return;
                         }
                         break;
@@ -794,7 +806,7 @@ function Board() {
                         break;
                     case "w":
                         if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos + 1][ypos + 2] !== "empty")) {
-                            this.currentPiece._canMove = false;
+                           this.currentPiece._isDownBlocked = true;
                             return;
                         }
                         break;
@@ -809,7 +821,7 @@ function Board() {
                     case "s":
 
                         if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos + 1][ypos + 2] !== "empty")) {
-                            this.currentPiece._canMove = false;
+                           this.currentPiece._isDownBlocked = true;
                             return;
                         }
                         break;
@@ -819,7 +831,7 @@ function Board() {
                         break;
                     case "w":
                         if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos + 1][ypos + 2] !== "empty")) {
-                            this.currentPiece._canMove = false;
+                           this.currentPiece._isDownBlocked = true;
                             return;
                         }
                         break;
@@ -834,6 +846,7 @@ function Board() {
     }
 
     this.setBoard = function () {
+        this.currentPiece._isSet = true;
         for (let i = 0; i < this._gridWidth; i++) {
             for (let j = 0; j < this._gridHeight; j++) {
                 if (this.currentPiece._boardCheck[i][j] !== "empty") {
@@ -863,7 +876,7 @@ function Board() {
         let k = 0;
         let zero = 0;
         let one = 1;
-
+        let newscore = 0;
 
         for (let i = 0; i < board._gridHeight - 1; i++) {
             if (this._lines[i] == 10) {
@@ -882,9 +895,28 @@ function Board() {
                     k--;
 
                 }
+                newscore++;
             }
+
         }
 
+        console.log(one);
+        switch (newscore) {
+            case 1:
+                newscore = newscore * 100;
+                break;
+            case 2:
+                newscore = newscore * 200;
+                break;
+            case 3:
+                newscore = newscore * 300;
+                break;
+            case 4:
+                newscore = newscore * 400;
+                break;
+        }
+
+        score = score + newscore;
 
 
 
@@ -1418,6 +1450,17 @@ var board = new Board();
 
 var timestep = 1000 / 60;//1000ms/60fps = 16.667 ms per frame every time
 var totalframes = 0;
+var milliseconds = 0;
+
+
+
+
+window.setInterval(addseconds, 1);
+function addseconds() {
+    milliseconds++;
+}
+
+var score = 0;
 function mainloop() {
     totalframes++;
 
@@ -1438,11 +1481,19 @@ function mainloop() {
     c.fillRect(0, 0, CELLSIZE * GRIDWIDTH, CELLSIZE * GRIDHEIGHT);
     c.stroke();
 
+
+
+
     board.update(); //update the board and pieces
     if (board.isGameOver) {
         board = new Board();
     }
 
+
+    c.beginPath();
+    c.font = "30px Arial";
+    c.fillStyle = "gray";
+    c.fillText(`Score: ${score}`, 400, 50);
     
 
     key = undefined;
