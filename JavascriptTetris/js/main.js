@@ -5,11 +5,12 @@
 // Your code here!
 var canvas = document.querySelector('canvas');
 
-canvas.width = window.innerWidth - 2;
-canvas.height = window.innerHeight - 2;
+canvas.width = 600;
+canvas.height = 800;
 
 
 var c = canvas.getContext('2d');
+
 
 
 //////////////////////////////////////////line drawing
@@ -264,6 +265,7 @@ function Board() {
         this._isLeftBlocked = false;
         this._isRightBlocked = false;
         this._isUpBlocked = false;
+      
             switch (this.currentPiece._pieceType) {
                 case "I":
                     this.checkCollisionI();
