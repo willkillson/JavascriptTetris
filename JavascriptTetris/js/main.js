@@ -139,34 +139,36 @@ function Board() {
             this.currentPiece.generateNewPiece();
         }
         this.currentPiece._command = key;
+
+
         if (this.currentPiece._command !== undefined) {
             console.log("poop");
-        }
-        this.checkCollision();
+   
+            this.checkCollision();
         
-        if (this.currentPiece._command === "w") {
+            if (this.currentPiece._command === "w") {
 
-            if (this.currentPiece._isDownBlocked === true) {
-                this.setBoard();// 
+                if (this.currentPiece._isDownBlocked === true) {
+                    this.setBoard();// 
+                }
+
+                while (this.currentPiece._isDownBlocked === false) {
+                    this.currentPiece.move();
+                    this.currentPiece.update();
+                    this.checkCollision(); 
+                }
             }
-
-            while (this.currentPiece._isDownBlocked === false) {
+            else {
                 this.currentPiece.move();
                 this.currentPiece.update();
-                this.checkCollision(); 
             }
-        }
-        else {
-            this.currentPiece.move();
-            this.currentPiece.update();
-        }
        
 
-        this.countLineCells();
-        this.shiftStackLines();
+            this.countLineCells();
+            this.shiftStackLines();
 
-        this.draw(); //redraw everything
 
+        }
     }
     this.draw = function () {
 
@@ -1054,7 +1056,7 @@ function Piece() {
                 this._boardCheck[this._xPosition - 1][this._yPosition + 1] = "purple";
                 break;
             case 5://Z
-                this._pieceType = "S";
+                this._pieceType = "Z";
                 this._boardCheck[this._xPosition][this._yPosition] = "green";
                 this._boardCheck[this._xPosition - 1][this._yPosition] = "green";
                 this._boardCheck[this._xPosition][this._yPosition + 1] = "green";
@@ -1418,9 +1420,8 @@ function Piece() {
             case 1:
                 this._boardCheck[this._xPosition][this._yPosition] = "green";
                 this._boardCheck[this._xPosition +1][this._yPosition] = "green";
-                this._boardCheck[this._xPosition+1][this._yPosition + 1] = "green";
-                this._boardCheck[this._xPosition][this._yPosition - 1] = "green";
-                break;
+                this._boardCheck[this._xPosition+1][this._yPosition - 1] = "green";
+                this._boardCheck[this._xPosition][this._yPosition +1] = "green";
                 break;
         }
     }
@@ -1499,6 +1500,7 @@ function mainloop() {
 
 
     board.update(); //update the board and pieces
+    board.draw();
     if (board.isGameOver) {
         board = new Board();
     }
