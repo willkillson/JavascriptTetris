@@ -102,65 +102,63 @@ function Board() {
     this._cellPadding = CELLPADDING;
     this.isEmpty = true;//this will invoke a place piece function
     this.currentPiece = undefined;
-    this.command = "s";//d,l,r,rr,rl,u
+    //this.command = "s";//d,l,r,rr,rl,u
     this.score = 0;
 
-    /////////////////MAIN BOARD Initialization 
-    this._board = new Array(this._gridWidth);//creating the multidem array in javascript <3
-    for (let i = 0; i < this._board.length; i++) {
-        this._board[i] = new Array(this._gridHeight);
-    }
-    this._board = clearBoard(this._board);
-    for (let i = 0; i < this._gridHeight; i++) {
-        //////board set up
-        //assigns boarder portions of _board array
-        this._board[0][i] = "boarder";
-        this._board[this._gridWidth - 1][i] = "boarder";
-        if (i < this._gridWidth) {
-            this._board[i][0] = "boarder";
-            this._board[i][this._gridHeight - 1] = "boarder";
-        }
-    }
-    
-    this._lines = new Array(this._gridHeight);//lines for counting when we have a tetris
-    for (let i = 0; i < this._lines.length; i++) {
-        this._lines[i] = 0;
-    }
-    /////////////////MAIN BOARD Initialization
 
-    this.update = function () {
-        if (this.currentPiece === undefined) {
-            this.currentPiece = new Piece();
-            this.currentPiece.generateNewPiece();
-            this.command = "d";
-
+    this.init = function () {
+        this._board = new Array(this._gridWidth);//creating the multidem array in javascript <3
+        for (let i = 0; i < this._board.length; i++) {
+            this._board[i] = new Array(this._gridHeight);
         }
-        if (this.currentPiece._isSet === true) {
-            if (this.currentPiece._canMove === false) {
-                console.log("PIECE IS SET!");
-                this.currentPiece.generateNewPiece();
-                this.isGameOver = true;
+        this._board = clearBoard(this._board);
+        for (let i = 0; i < this._gridHeight; i++) {
+            //////board set up
+            //assigns boarder portions of _board array
+            this._board[0][i] = "boarder";
+            this._board[this._gridWidth - 1][i] = "boarder";
+            if (i < this._gridWidth) {
+                this._board[i][0] = "boarder";
+                this._board[i][this._gridHeight - 1] = "boarder";
             }
-            this.currentPiece.generateNewPiece();
-            this.command = "d";
         }
-        this.currentPiece._command = this.command;// pass the command to the piece
+
+        this._lines = new Array(this._gridHeight);//lines for counting when we have a tetris
+        for (let i = 0; i < this._lines.length; i++) {
+            this._lines[i] = 0;
+        }
+
+        this.currentPiece = new Piece();
+        this.currentPiece.init();
+        this.currentPiece.generateNewPiece();
+
+    }
+    this.update = function () {
+
+        if (this.currentPiece._isSet === true) {
+            this.currentPiece.generateNewPiece();
+        }
+        this.currentPiece._command = key;
+        if (this.currentPiece._command !== undefined) {
+            console.log("poop");
+        }
+        this.checkCollision();
+        
         if (this.currentPiece._command === "w") {
+
             if (this.currentPiece._isDownBlocked === true) {
                 this.setBoard();// 
             }
 
             while (this.currentPiece._isDownBlocked === false) {
-                this.processCommand();
+                this.currentPiece.move();
+                this.currentPiece.update();
+                this.checkCollision(); 
             }
         }
         else {
-            if ((this.currentPiece._isDownBlocked === true)&& (this.command==="s")) {
-                this.setBoard();// 
-            }
-            else {
-                this.processCommand();
-            }
+            this.currentPiece.move();
+            this.currentPiece.update();
         }
        
 
@@ -251,13 +249,6 @@ function Board() {
 
     }
 
-    this.processCommand = function () {
-        this.checkCollision(); // check the collision of the piece vs the board
-        this.currentPiece.move();
-        this.currentPiece.update();
-        this.checkCollision(); // check the collision of the piece vs the board
-    }
-
     this.checkCollision = function () {
         //checks the collisions between  this._board[][] and _currentPiece._boardCheck[][]
         //then flags either 
@@ -265,6 +256,8 @@ function Board() {
         this._isLeftBlocked = false;
         this._isRightBlocked = false;
         this._isUpBlocked = false;
+        this.isRotateRightBlocked = false;
+        this.isRotateLeftBlocked = false;
       
             switch (this.currentPiece._pieceType) {
                 case "I":
@@ -902,7 +895,7 @@ function Board() {
 
         }
 
-        console.log(one);
+
         switch (newscore) {
             case 1:
                 newscore = newscore * 100;
@@ -939,15 +932,20 @@ function Piece() {
     this._isLeftBlocked = undefined;
     this._isRightBlocked = undefined;
     this._isUpBlocked = undefined;
+    this.isRotateRightBlocked = undefined;
+    this.isRotateLeftBlocked = undefined;
     this._canMove = undefined;
     this._isSet = undefined;
     this._command = undefined;
 
 
 
-    this._boardCheck = new Array(this._gridWidth);//creating the multidem array in javascript <3
-    for (let i = 0; i < this._boardCheck.length; i++) {
-        this._boardCheck[i] = new Array(this._gridHeight);
+
+    this.init = function () {
+        this._boardCheck = new Array(this._gridWidth);//creating the multidem array in javascript <3
+        for (let i = 0; i < this._boardCheck.length; i++) {
+            this._boardCheck[i] = new Array(this._gridHeight);
+        }
     }
     this.generateNewPiece = function () {
         let num = Math.floor(7 * Math.random());
@@ -968,11 +966,13 @@ function Piece() {
         this._isLeftBlocked = false;
         this._isRightBlocked = false;
         this._isUpBlocked = false;
+        this.isRotateRightBlocked = false;
+        this.isRotateLeftBlocked = false;
         this._isSet = false;
         this._canMove = true;
 
         //reset current command
-        this._currentCommand = undefined;
+        this._command = undefined;
 
         switch (num) {////////////testing rotations
             case 0:
@@ -1071,7 +1071,7 @@ function Piece() {
 
 
 
-
+        this._command = undefined;
     }
 
     this.move = function () {
@@ -1079,22 +1079,34 @@ function Piece() {
             switch (this._command) {
                 //0 === I, 1 === T, 2 === L, 3 === J, 4 === S, 5 === Z, 6 === BLOCK
                 case "s":
-                    this._yPosition += 1;
+                    if (this._isDownBlocked === false) {
+                        this._yPosition += 1;
+                    }
                     break;
                 case "w":
-                    this._yPosition += 1;
+                    if (this._isDownBlocked === false) {
+                        this._yPosition += 1;
+                    }
                     break;
                 case "a":
-                    this._xPosition -= 1;
+                    if (this._isLeftBlocked === false) {
+                        this._xPosition -= 1;
+                    }
                     break;
                 case "d":
-                    this._xPosition += 1;
+                    if (this._isRightBlocked === false) {
+                        this._xPosition += 1;
+                    }
                     break;
                 case "j":
-                    this.moveRotate("left");
+                    if (this.isRotateLeftBlocked === false) {
+                        this.moveRotate("left");
+                    }
                     break;
                 case "k":
-                    this.moveRotate("right");
+                    if (this.isRotateLeftBlocked === false) {
+                        this.moveRotate("right");
+                    }
                     break;
             }
         
@@ -1442,13 +1454,14 @@ function Piece() {
     }
 }
 
-var key = "d";
+var key = undefined;
 window.addEventListener('keypress', function (e) {
     key = e.key;
 }, false);
 
 
 var board = new Board();
+board.init();
 
 var timestep = 1000 / 60;//1000ms/60fps = 16.667 ms per frame every time
 var totalframes = 0;
@@ -1468,11 +1481,10 @@ function mainloop() {
 
     if (key === "p") {
         for (let i = 0; i < board._gridHeight-1; i++) {
-            console.log(board._lines[i]);
+
         }
     }
 
-    board.command = key;
     c.clearRect(0, 0, canvas.width, canvas.height);
     c.beginPath();
     c.fillStyle = 'black';
