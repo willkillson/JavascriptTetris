@@ -145,22 +145,22 @@ function Board() {
         this.checkCollision();
 
         if (key !== undefined)
-        console.log("Checks__ S = " + board.currentPiece._isDownBlocked + " | A = " + board.currentPiece._isLeftBlocked + " | D = " + board.currentPiece._isRightBlocked + " | RL = " + board.currentPiece.isRotateLeftBlocked + " | RR = " + board.currentPiece.isRotateRightBlocked+ " |");
+        console.log("Checks__ S = " + board.currentPiece.isDownBlocked + " | A = " + board.currentPiece.isLeftBlocked + " | D = " + board.currentPiece.isRightBlocked + " | RL = " + board.currentPiece.isRotateLeftBlocked + " | RR = " + board.currentPiece.isRotateRightBlocked+ " |");
 
             if (this.currentPiece._command === "w") {
 
-                if (this.currentPiece._isDownBlocked === true) {
+                if (this.currentPiece.isDownBlocked === true) {
                     this.setBoard();// 
                 }
 
-                while (this.currentPiece._isDownBlocked === false) {
+                while (this.currentPiece.isDownBlocked === false) {
                     this.currentPiece.move();
                     this.currentPiece.update();
                     this.checkCollision(); 
                 }
             }
             else {
-                if ((this.currentPiece._command === "s") && (this.currentPiece._isDownBlocked === true)) {
+                if ((this.currentPiece._command === "s") && (this.currentPiece.isDownBlocked === true)) {
                     this.setBoard();// 
                 }
                 else {
@@ -261,10 +261,10 @@ function Board() {
         //checks the collisions between  this._board[][] and _currentPiece._boardCheck[][]
         //then flags either 
 
-        this.currentPiece._isDownBlocked = false;
-        this.currentPiece._isLeftBlocked = false;
-        this.currentPiece._isRightBlocked = false;
-        this.currentPiece._isUpBlocked = false;
+        this.currentPiece.isDownBlocked = false;
+        this.currentPiece.isLeftBlocked = false;
+        this.currentPiece.isRightBlocked = false;
+        this.currentPiece.isUpBlocked = false;
         this.currentPiece.isRotateRightBlocked = false;
         this.currentPiece.isRotateLeftBlocked = false;
 
@@ -299,30 +299,30 @@ function Board() {
     this.checkCollisionI = function() {
         let xpos = this.currentPiece._xPosition;
         let ypos = this.currentPiece._yPosition;
-        switch (this.currentPiece._rotation) {//rotation
+        switch (this.currentPiece.rotation) {//rotation
             case 0:
                 switch (this.currentPiece._command) {//commands
                     case "s":
                         if ((this._board[xpos][ypos + 1] !== "empty") || (this._board[xpos - 1][ypos + 1] !== "empty") || (this._board[xpos + 1][ypos + 1] !== "empty") || (this._board[xpos + 2][ypos + 1] !== "empty")) {
-                            this.currentPiece._isDownBlocked = true;
+                            this.currentPiece.isDownBlocked = true;
                             return;
                         }
                         break;
                     case "a":
                         if (this._board[xpos - 2][ypos] !== "empty" ) {
-                            this.currentPiece._isLeftBlocked = true;
+                            this.currentPiece.isLeftBlocked = true;
                             return;
                         }
                         break;
                     case "d":
                         if (this._board[xpos +3][ypos] !== "empty" ) {
-                            this.currentPiece._isRightBlocked = true;
+                            this.currentPiece.isRightBlocked = true;
                             return;
                         }
                         break;
                     case "w":
                         if ((this._board[xpos][ypos + 1] !== "empty") || (this._board[xpos - 1][ypos + 1] !== "empty") || (this._board[xpos + 1][ypos + 1] !== "empty") || (this._board[xpos + 2][ypos + 1] !== "empty")) {
-                            this.currentPiece._isDownBlocked = true;
+                            this.currentPiece.isDownBlocked = true;
                             return;
                         }
                         break;
@@ -345,25 +345,25 @@ function Board() {
                     case "s":
 
                         if ((this._board[xpos+1][ypos + 2] !== "empty")) {
-                            this.currentPiece._isDownBlocked = true;
+                            this.currentPiece.isDownBlocked = true;
                             return;
                         }
                         break;
                     case "a":
                         if ((this._board[xpos][ypos] !== "empty") || (this._board[xpos][ypos-1] !== "empty") || (this._board[xpos][ypos-2] !== "empty") || (this._board[xpos][ypos+1] !== "empty")) {
-                            this.currentPiece._isLeftBlocked = true;
+                            this.currentPiece.isLeftBlocked = true;
                             return;
                         }
                         break;
                     case "d":
                         if ((this._board[xpos + 2][ypos] !== "empty") || (this._board[xpos + 2][ypos - 1] !== "empty") || (this._board[xpos + 2][ypos - 2] !== "empty") || (this._board[xpos + 2][ypos + 1] !== "empty")) {
-                            this.currentPiece._isRightBlocked = true;
+                            this.currentPiece.isRightBlocked = true;
                             return;
                         }
                         break;
                     case "w":
                         if ((this._board[xpos + 1][ypos + 2] !== "empty")) {
-                            this.currentPiece._isDownBlocked = true;
+                            this.currentPiece.isDownBlocked = true;
                             return;
                         }
                         break;
@@ -386,35 +386,35 @@ function Board() {
 
 
         //piece._isSet = true;
-        this.currentPiece._canMove = true;
+
         return;
     }
     this.checkCollisionT = function () {
         let xpos = this.currentPiece._xPosition;
         let ypos = this.currentPiece._yPosition;
-        switch (this.currentPiece._rotation) {//rotation
+        switch (this.currentPiece.rotation) {//rotation
             case 0:
                 switch (this.currentPiece._command) {//commands
                     case "s":
 
                         if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos - 1][ypos + 1] !== "empty") || (this._board[xpos + 1][ypos + 1] !== "empty")) {
-                           this.currentPiece._isDownBlocked = true;
+                           this.currentPiece.isDownBlocked = true;
                             return;
                         }
                         break;
                     case "a":
                         if ((this._board[xpos - 2][ypos] !== "empty") || (this._board[xpos - 1][ypos+1] !== "empty")) {
-                            this.currentPiece._isLeftBlocked = true;
+                            this.currentPiece.isLeftBlocked = true;
                         }
                         break;
                     case "d":
                         if ((this._board[xpos + 2 ][ypos] !== "empty") || (this._board[xpos +1][ypos + 1] !== "empty")) {
-                            this.currentPiece._isRightBlocked = true;
+                            this.currentPiece.isRightBlocked = true;
                         }
                         break;
                     case "w":
                         if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos - 1][ypos + 1] !== "empty") || (this._board[xpos + 1][ypos + 1] !== "empty")) {
-                           this.currentPiece._isDownBlocked = true;
+                           this.currentPiece.isDownBlocked = true;
                             return;
                         }
                         break;
@@ -436,23 +436,23 @@ function Board() {
                     case "s":
 
                         if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos - 1][ypos + 1] !== "empty")) {
-                           this.currentPiece._isDownBlocked = true;
+                           this.currentPiece.isDownBlocked = true;
                             return;
                         }
                         break;
                     case "a":
                         if ((this._board[xpos - 2][ypos] !== "empty") || (this._board[xpos - 1][ypos + 1] !== "empty") || (this._board[xpos - 1][ypos - 1] !== "empty")) {
-                            this.currentPiece._isLeftBlocked = true;
+                            this.currentPiece.isLeftBlocked = true;
                         }
                         break;
                     case "d":
                         if ((this._board[xpos+1][ypos] !== "empty") || (this._board[xpos + 1][ypos + 1] !== "empty") || (this._board[xpos + 1][ypos - 1] !== "empty")) {
-                            this.currentPiece._isRightBlocked = true;
+                            this.currentPiece.isRightBlocked = true;
                         }
                         break;
                     case "w":
                         if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos - 1][ypos + 1] !== "empty")) {
-                           this.currentPiece._isDownBlocked = true;
+                           this.currentPiece.isDownBlocked = true;
                             return;
                         }
                         break;
@@ -467,25 +467,25 @@ function Board() {
                     case "s":
 
                         if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos - 1][ypos + 2] !== "empty") || (this._board[xpos + 1][ypos +2] !== "empty")) {
-                           this.currentPiece._isDownBlocked = true;
+                           this.currentPiece.isDownBlocked = true;
                             return;
                         }
                         break;
                     case "a":
                         if ((this._board[xpos-1][ypos] !== "empty") || (this._board[xpos - 2][ypos + 1] !== "empty")) {
-                            this.currentPiece._isLeftBlocked = true;
+                            this.currentPiece.isLeftBlocked = true;
            
                         }
                         break;
                     case "d":
                         if ((this._board[xpos + 1][ypos] !== "empty") || (this._board[xpos + 2][ypos + 1] !== "empty")) {
-                            this.currentPiece._isRightBlocked = true;
+                            this.currentPiece.isRightBlocked = true;
 
                         }
                         break;
                     case "w":
                         if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos - 1][ypos + 2] !== "empty") || (this._board[xpos + 1][ypos + 2] !== "empty")) {
-                           this.currentPiece._isDownBlocked = true;
+                           this.currentPiece.isDownBlocked = true;
                             return;
                         }
                         break;
@@ -500,23 +500,23 @@ function Board() {
                     case "s":
 
                         if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos + 1][ypos + 1] !== "empty")) {
-                           this.currentPiece._isDownBlocked = true;
+                           this.currentPiece.isDownBlocked = true;
                             return;
                         }
                         break;
                     case "a":
                         if ((this._board[xpos - 1][ypos] !== "empty") || (this._board[xpos - 1][ypos - 1] !== "empty") || (this._board[xpos - 1][ypos +1] !== "empty")) {
-                            this.currentPiece._isLeftBlocked = true;
+                            this.currentPiece.isLeftBlocked = true;
                         }
                         break;
                     case "d":
                         if ((this._board[xpos +2][ypos] !== "empty") || (this._board[xpos +1][ypos - 1] !== "empty") || (this._board[xpos + 1][ypos + 1] !== "empty")) {
-                            this.currentPiece._isRightBlocked = true;
+                            this.currentPiece.isRightBlocked = true;
                         }
                         break;
                     case "w":
                         if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos + 1][ypos + 1] !== "empty")) {
-                           this.currentPiece._isDownBlocked = true;
+                           this.currentPiece.isDownBlocked = true;
                             return;
                         }
                         break;
@@ -533,13 +533,13 @@ function Board() {
     this.checkCollisionL = function() {
         let xpos = this.currentPiece._xPosition;
         let ypos = this.currentPiece._yPosition;
-        switch (this.currentPiece._rotation) {//rotation
+        switch (this.currentPiece.rotation) {//rotation
             case 0:
                 switch (this.currentPiece._command) {//commands
                     case "s":
 
                         if ((this._board[xpos][ypos + 1] !== "empty") || (this._board[xpos + 1][ypos + 1] !== "empty") || (this._board[xpos - 1][ypos + 2] !== "empty")) {
-                           this.currentPiece._isDownBlocked = true;
+                           this.currentPiece.isDownBlocked = true;
                             return;
                         }
                         break;
@@ -549,7 +549,7 @@ function Board() {
                         break;
                     case "w":
                         if ((this._board[xpos][ypos + 1] !== "empty") || (this._board[xpos + 1][ypos + 1] !== "empty") || (this._board[xpos - 1][ypos + 2] !== "empty")) {
-                           this.currentPiece._isDownBlocked = true;
+                           this.currentPiece.isDownBlocked = true;
                             return;
                         }
                         break;
@@ -564,7 +564,7 @@ function Board() {
                     case "s":
 
                         if ((this._board[xpos][ypos+2] !== "empty") || (this._board[xpos - 1][ypos] !== "empty")) {
-                           this.currentPiece._isDownBlocked = true;
+                           this.currentPiece.isDownBlocked = true;
                             return;
                         }
                         break;
@@ -575,7 +575,7 @@ function Board() {
                     case "w":
 
                         if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos - 1][ypos] !== "empty")) {
-                           this.currentPiece._isDownBlocked = true;
+                           this.currentPiece.isDownBlocked = true;
                             return;
                         }
                         break;
@@ -590,7 +590,7 @@ function Board() {
                     case "s":
 
                         if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos + 1][ypos + 2] !== "empty") || (this._board[xpos - 1][ypos + 2] !== "empty")) {
-                           this.currentPiece._isDownBlocked = true;
+                           this.currentPiece.isDownBlocked = true;
                             return;
                         }
                         break;
@@ -600,7 +600,7 @@ function Board() {
                         break;
                     case "w":
                         if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos + 1][ypos + 2] !== "empty") || (this._board[xpos - 1][ypos + 2] !== "empty")) {
-                           this.currentPiece._isDownBlocked = true;
+                           this.currentPiece.isDownBlocked = true;
                             return;
                         }
                         break;
@@ -615,7 +615,7 @@ function Board() {
                     case "s":
 
                         if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos + 1][ypos + 2] !== "empty")) {
-                           this.currentPiece._isDownBlocked = true;
+                           this.currentPiece.isDownBlocked = true;
                             return;
                         }
                         break;
@@ -625,7 +625,7 @@ function Board() {
                         break;
                     case "w":
                         if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos + 1][ypos + 2] !== "empty")) {
-                           this.currentPiece._isDownBlocked = true;
+                           this.currentPiece.isDownBlocked = true;
                             return;
                         }
                         break;
@@ -641,13 +641,13 @@ function Board() {
     this.checkCollisionJ = function () {
         let xpos = this.currentPiece._xPosition;
         let ypos = this.currentPiece._yPosition;
-        switch (this.currentPiece._rotation) {//rotation
+        switch (this.currentPiece.rotation) {//rotation
             case 0:
                 switch (this.currentPiece._command) {//commands
                     case "s":
 
                         if ((this._board[xpos][ypos + 1] !== "empty") || (this._board[xpos - 1][ypos + 1] !== "empty") || (this._board[xpos + 1][ypos + 2] !== "empty")) {
-                           this.currentPiece._isDownBlocked = true;
+                           this.currentPiece.isDownBlocked = true;
                             return;
                         }
                         break;
@@ -657,7 +657,7 @@ function Board() {
                         break;
                     case "w":
                         if ((this._board[xpos][ypos + 1] !== "empty") || (this._board[xpos - 1][ypos + 1] !== "empty") || (this._board[xpos + 1][ypos + 2] !== "empty")) {
-                           this.currentPiece._isDownBlocked = true;
+                           this.currentPiece.isDownBlocked = true;
                             return;
                         }
                         break;
@@ -672,7 +672,7 @@ function Board() {
                     case "s":
 
                         if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos - 1][ypos + 2] !== "empty")) {
-                           this.currentPiece._isDownBlocked = true;
+                           this.currentPiece.isDownBlocked = true;
                             return;
                         }
                         break;
@@ -682,7 +682,7 @@ function Board() {
                         break;
                     case "w":
                         if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos - 1][ypos + 2] !== "empty")) {
-                           this.currentPiece._isDownBlocked = true;
+                           this.currentPiece.isDownBlocked = true;
                             return;
                         }
                         break;
@@ -697,7 +697,7 @@ function Board() {
                     case "s":
 
                         if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos - 1][ypos + 2] !== "empty") || (this._board[xpos + 1][ypos + 2] !== "empty")) {
-                           this.currentPiece._isDownBlocked = true;
+                           this.currentPiece.isDownBlocked = true;
                             return;
                         }
                         break;
@@ -707,7 +707,7 @@ function Board() {
                         break;
                     case "w":
                         if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos - 1][ypos + 2] !== "empty") || (this._board[xpos + 1][ypos + 2] !== "empty")) {
-                           this.currentPiece._isDownBlocked = true;
+                           this.currentPiece.isDownBlocked = true;
                             return;
                         }
                         break;
@@ -722,7 +722,7 @@ function Board() {
                     case "s":
 
                         if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos + 1][ypos] !== "empty")) {
-                           this.currentPiece._isDownBlocked = true;
+                           this.currentPiece.isDownBlocked = true;
                             return;
                         }
                         break;
@@ -732,7 +732,7 @@ function Board() {
                         break;
                     case "w":
                         if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos + 1][ypos] !== "empty")) {
-                           this.currentPiece._isDownBlocked = true;
+                           this.currentPiece.isDownBlocked = true;
                             return;
                         }
                         break;
@@ -748,13 +748,13 @@ function Board() {
     this.checkCollisionS = function() {
         let xpos = this.currentPiece._xPosition;
         let ypos = this.currentPiece._yPosition;
-        switch (this.currentPiece._rotation) {//rotation
+        switch (this.currentPiece.rotation) {//rotation
             case 0:
                 switch (this.currentPiece._command) {//commands
                     case "s":
 
                         if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos - 1][ypos + 2] !== "empty") || (this._board[xpos + 1][ypos + 1] !== "empty")) {
-                           this.currentPiece._isDownBlocked = true;
+                           this.currentPiece.isDownBlocked = true;
                             return;
                         }
                         break;
@@ -764,7 +764,7 @@ function Board() {
                         break;
                     case "w":
                         if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos - 1][ypos + 2] !== "empty") || (this._board[xpos + 1][ypos + 1] !== "empty")) {
-                           this.currentPiece._isDownBlocked = true;
+                           this.currentPiece.isDownBlocked = true;
                             return;
                         }
                         break;
@@ -779,7 +779,7 @@ function Board() {
                     case "s":
 
                         if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos - 1][ypos + 1] !== "empty")) {
-                           this.currentPiece._isDownBlocked = true;
+                           this.currentPiece.isDownBlocked = true;
                             return;
                         }
                         break;
@@ -789,7 +789,7 @@ function Board() {
                         break;
                     case "w":
                         if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos - 1][ypos + 1] !== "empty")) {
-                           this.currentPiece._isDownBlocked = true;
+                           this.currentPiece.isDownBlocked = true;
                             return;
                         }
                         break;
@@ -805,13 +805,13 @@ function Board() {
     this.checkCollisionZ = function() {
         let xpos = this.currentPiece._xPosition;
         let ypos = this.currentPiece._yPosition;
-        switch (this.currentPiece._rotation) {//rotation
+        switch (this.currentPiece.rotation) {//rotation
             case 0:
                 switch (this.currentPiece._command) {//commands
                     case "s":
 
                         if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos - 1][ypos + 1] !== "empty") || (this._board[xpos + 1][ypos + 2] !== "empty") ) {
-                           this.currentPiece._isDownBlocked = true;
+                           this.currentPiece.isDownBlocked = true;
                             return;
                         }
                         break;
@@ -821,7 +821,7 @@ function Board() {
                         break;
                     case "w":
                         if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos - 1][ypos + 1] !== "empty") || (this._board[xpos + 1][ypos + 2] !== "empty")) {
-                           this.currentPiece._isDownBlocked = true;
+                           this.currentPiece.isDownBlocked = true;
                             return;
                         }
                         break;
@@ -836,7 +836,7 @@ function Board() {
                     case "s":
 
                         if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos +1][ypos] !== "empty")) {
-                           this.currentPiece._isDownBlocked = true;
+                           this.currentPiece.isDownBlocked = true;
                             return;
                         }
                         break;
@@ -846,7 +846,7 @@ function Board() {
                         break;
                     case "w":
                         if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos + 1][ypos] !== "empty")) {
-                           this.currentPiece._isDownBlocked = true;
+                           this.currentPiece.isDownBlocked = true;
                             return;
                         }
                         break;
@@ -862,13 +862,13 @@ function Board() {
     this.checkCollisionO = function () {
         let xpos = this.currentPiece._xPosition;
         let ypos = this.currentPiece._yPosition;
-        switch (this.currentPiece._rotation) {//rotation
+        switch (this.currentPiece.rotation) {//rotation
             case 0:
                 switch (this.currentPiece._command) {//commands
                     case "s":
 
                         if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos + 1][ypos + 2] !== "empty")) {
-                           this.currentPiece._isDownBlocked = true;
+                           this.currentPiece.isDownBlocked = true;
                             return;
                         }
                         break;
@@ -878,7 +878,7 @@ function Board() {
                         break;
                     case "w":
                         if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos + 1][ypos + 2] !== "empty")) {
-                           this.currentPiece._isDownBlocked = true;
+                           this.currentPiece.isDownBlocked = true;
                             return;
                         }
                         break;
@@ -893,7 +893,7 @@ function Board() {
                     case "s":
 
                         if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos + 1][ypos + 2] !== "empty")) {
-                           this.currentPiece._isDownBlocked = true;
+                           this.currentPiece.isDownBlocked = true;
                             return;
                         }
                         break;
@@ -903,7 +903,7 @@ function Board() {
                         break;
                     case "w":
                         if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos + 1][ypos + 2] !== "empty")) {
-                           this.currentPiece._isDownBlocked = true;
+                           this.currentPiece.isDownBlocked = true;
                             return;
                         }
                         break;
@@ -1002,14 +1002,13 @@ function Piece() {
     this._pieceType = undefined;//WARNING THIS IS OLD INFORMATION AND THEY USE CHARACTERS NOW 0===I , 1===T , 2===L , 3===J , 4===S , 5===Z , 6===BLOCK
     this._xPosition = undefined;// in relation to the main board
     this._yPosition = undefined;// in relation to the main board
-    this._rotation = undefined;
-    this._isDownBlocked = undefined;
-    this._isLeftBlocked = undefined;
-    this._isRightBlocked = undefined;
-    this._isUpBlocked = undefined;
+    this.rotation = undefined;
+    this.isDownBlocked = undefined;
+    this.isLeftBlocked = undefined;
+    this.isRightBlocked = undefined;
+    this.isUpBlocked = undefined;
     this.isRotateRightBlocked = undefined;
     this.isRotateLeftBlocked = undefined;
-    this._canMove = undefined;
     this._isSet = undefined;
     this._command = undefined;
 
@@ -1035,41 +1034,41 @@ function Piece() {
         }
 
         //reset collision
-        this._rotation = 0;
+        this.rotation = 0;
 
-        this._isDownBlocked = false;
-        this._isLeftBlocked = false;
-        this._isRightBlocked = false;
-        this._isUpBlocked = false;
+        this.isDownBlocked = false;
+        this.isLeftBlocked = false;
+        this.isRightBlocked = false;
+        this.isUpBlocked = false;
         this.isRotateRightBlocked = false;
         this.isRotateLeftBlocked = false;
         this._isSet = false;
-        this._canMove = true;
+    
 
         //reset current command
         this._command = undefined;
 
         switch (num) {////////////testing rotations
             case 0:
-                this._rotation = Math.floor(2 * Math.random());
+                this.rotation = Math.floor(2 * Math.random());
                 break;
             case 1:
-                this._rotation = Math.floor(4 * Math.random());
+                this.rotation = Math.floor(4 * Math.random());
                 break;
             case 2:
-                this._rotation = Math.floor(4 * Math.random());
+                this.rotation = Math.floor(4 * Math.random());
                 break;
             case 3:
-                this._rotation = Math.floor(4 * Math.random());
+                this.rotation = Math.floor(4 * Math.random());
                 break;
             case 4:
-                this._rotation = Math.floor(2 * Math.random());
+                this.rotation = Math.floor(2 * Math.random());
                 break;
             case 5:
-                this._rotation = Math.floor(2 * Math.random());
+                this.rotation = Math.floor(2 * Math.random());
                 break;
             case 6:
-                this._rotation = Math.floor(2 * Math.random());
+                this.rotation = Math.floor(2 * Math.random());
                 break;
         }
 
@@ -1080,7 +1079,7 @@ function Piece() {
 
         this._xPosition = 5;
         this._yPosition = 3;// og3
-        this._rotation = 0;
+        this.rotation = 0;
         num = 1;
 
 
@@ -1154,22 +1153,22 @@ function Piece() {
             switch (this._command) {
                 //0 === I, 1 === T, 2 === L, 3 === J, 4 === S, 5 === Z, 6 === BLOCK
                 case "s":
-                    if (this._isDownBlocked === false) {
+                    if (this.isDownBlocked === false) {
                         this._yPosition += 1;
                     }
                     break;
                 case "w":
-                    if (this._isDownBlocked === false) {
+                    if (this.isDownBlocked === false) {
                         this._yPosition += 1;
                     }
                     break;
                 case "a":
-                    if (this._isLeftBlocked === false) {
+                    if (this.isLeftBlocked === false) {
                         this._xPosition -= 1;
                     }
                     break;
                 case "d":
-                    if (this._isRightBlocked === false) {
+                    if (this.isRightBlocked === false) {
                         this._xPosition += 1;
                     }
                     break;
@@ -1190,47 +1189,47 @@ function Piece() {
     this.moveRotate = function (dir) {
         switch (this._pieceType) {
             case "I":
-                switch (this._rotation) {
+                switch (this.rotation) {
                     case 0:
-                        this._rotation = 1;
+                        this.rotation = 1;
                         break;
                     case 1:
-                        this._rotation = 0;
+                        this.rotation = 0;
                         break;
                 }
                 break;
             case "J":
                 if (dir === "left") {
 
-                    switch (this._rotation) {
+                    switch (this.rotation) {
                         case 0:
-                            this._rotation = 3;
+                            this.rotation = 3;
                             break;
                         case 1:
-                            this._rotation = 0;
+                            this.rotation = 0;
                             break;
                         case 2:
-                            this._rotation = 1;
+                            this.rotation = 1;
                             break;
                         case 3:
-                            this._rotation = 2;
+                            this.rotation = 2;
                             break;
                     }
 
                 }
                 else if (dir === "right") {
-                    switch (this._rotation) {
+                    switch (this.rotation) {
                         case 0:
-                            this._rotation = 1;
+                            this.rotation = 1;
                             break;
                         case 1:
-                            this._rotation = 2;
+                            this.rotation = 2;
                             break;
                         case 2:
-                            this._rotation = 3;
+                            this.rotation = 3;
                             break;
                         case 3:
-                            this._rotation = 0;
+                            this.rotation = 0;
                             break;
                     }
                 }
@@ -1239,35 +1238,35 @@ function Piece() {
             case "L":
                 if (dir === "left") {
 
-                    switch (this._rotation) {
+                    switch (this.rotation) {
                         case 0:
-                            this._rotation = 3;
+                            this.rotation = 3;
                             break;
                         case 1:
-                            this._rotation = 0;
+                            this.rotation = 0;
                             break;
                         case 2:
-                            this._rotation = 1;
+                            this.rotation = 1;
                             break;
                         case 3:
-                            this._rotation = 2;
+                            this.rotation = 2;
                             break;
                     }
 
                 }
                 else if (dir === "right") {
-                    switch (this._rotation) {
+                    switch (this.rotation) {
                         case 0:
-                            this._rotation = 1;
+                            this.rotation = 1;
                             break;
                         case 1:
-                            this._rotation = 2;
+                            this.rotation = 2;
                             break;
                         case 2:
-                            this._rotation = 3;
+                            this.rotation = 3;
                             break;
                         case 3:
-                            this._rotation = 0;
+                            this.rotation = 0;
                             break;
                     }
                 }
@@ -1275,57 +1274,57 @@ function Piece() {
             case "O":
                 break;
             case "S":
-                switch (this._rotation) {
+                switch (this.rotation) {
                     case 0:
-                        this._rotation = 1;
+                        this.rotation = 1;
                         break;
                     case 1:
-                        this._rotation = 0;
+                        this.rotation = 0;
                         break;
                 }
                 break;
             case "Z":
-                switch (this._rotation) {
+                switch (this.rotation) {
                     case 0:
-                        this._rotation = 1;
+                        this.rotation = 1;
                         break;
                     case 1:
-                        this._rotation = 0;
+                        this.rotation = 0;
                         break;
                 }
                 break;
             case "T":
                 if (dir === "left") {
 
-                    switch (this._rotation) {
+                    switch (this.rotation) {
                         case 0:
-                            this._rotation = 3;
+                            this.rotation = 3;
                             break;
                         case 1:
-                            this._rotation = 0;
+                            this.rotation = 0;
                             break;
                         case 2:
-                            this._rotation = 1;
+                            this.rotation = 1;
                             break;
                         case 3:
-                            this._rotation = 2;
+                            this.rotation = 2;
                             break;
                     }
 
                 }
                 else if (dir === "right") {
-                    switch (this._rotation) {
+                    switch (this.rotation) {
                         case 0:
-                            this._rotation = 1;
+                            this.rotation = 1;
                             break;
                         case 1:
-                            this._rotation = 2;
+                            this.rotation = 2;
                             break;
                         case 2:
-                            this._rotation = 3;
+                            this.rotation = 3;
                             break;
                         case 3:
-                            this._rotation = 0;
+                            this.rotation = 0;
                             break;
                     }
                 }
@@ -1360,7 +1359,7 @@ function Piece() {
 
     }
     this.updateI = function () {
-        switch (this._rotation) {
+        switch (this.rotation) {
 
             case 0:
                 this._boardCheck[this._xPosition][this._yPosition] = "red";
@@ -1377,7 +1376,7 @@ function Piece() {
         }
     }
     this.updateT = function () {
-        switch (this._rotation) {
+        switch (this.rotation) {
             case 0:
                 this._boardCheck[this._xPosition][this._yPosition] = "teal";
                 this._boardCheck[this._xPosition - 1][this._yPosition] = "teal";
@@ -1407,7 +1406,7 @@ function Piece() {
     }
     this.updateL = function () {
 
-        switch (this._rotation) {
+        switch (this.rotation) {
             case 0:
                 this._boardCheck[this._xPosition][this._yPosition] = "orange";
                 this._boardCheck[this._xPosition - 1][this._yPosition] = "orange";
@@ -1437,7 +1436,7 @@ function Piece() {
     }
     this.updateJ = function () {
 
-        switch (this._rotation) {
+        switch (this.rotation) {
             case 0:
                 this._boardCheck[this._xPosition][this._yPosition] = "blue";
                 this._boardCheck[this._xPosition - 1][this._yPosition] = "blue";
@@ -1466,7 +1465,7 @@ function Piece() {
         }
     }
     this.updateS = function () {
-        switch (this._rotation) {
+        switch (this.rotation) {
             case 0:
                 this._boardCheck[this._xPosition][this._yPosition] = "purple";
                 this._boardCheck[this._xPosition + 1][this._yPosition] = "purple";
@@ -1483,7 +1482,7 @@ function Piece() {
         }
     }
     this.updateZ = function () {
-        switch (this._rotation) {
+        switch (this.rotation) {
             case 0:
                 this._boardCheck[this._xPosition][this._yPosition] = "green";
                 this._boardCheck[this._xPosition - 1][this._yPosition] = "green";
@@ -1500,7 +1499,7 @@ function Piece() {
     }
     this.updateO = function () {
 
-        switch (this._rotation) {
+        switch (this.rotation) {
             case 0:
                 this._boardCheck[this._xPosition][this._yPosition] = "yellow";
                 this._boardCheck[this._xPosition + 1][this._yPosition] = "yellow";
@@ -1539,22 +1538,22 @@ board.init();
 
 var timestep = 1000 / 60;//1000ms/60fps = 16.667 ms per frame every time
 var totalframes = 0;
+
+
 var milliseconds = 0;
-
-
-
-
-window.setInterval(addseconds, 1);
-function addseconds() {
+window.setInterval(function addseconds() {
     milliseconds++;
-}
+}, 1);
+//function addseconds() {
+//    milliseconds++;
+//}
 
 var score = 0;
 function mainloop() {
     totalframes++;
 
     if (key === "p") {
-        console.log("Checks__ S = " + board.currentPiece._isDownBlocked + " | A = " + board.currentPiece._isLeftBlocked + " | D = " + board.currentPiece._isRightBlocked+ " |");
+        console.log("Checks__ S = " + board.currentPiece.isDownBlocked + " | A = " + board.currentPiece.isLeftBlocked + " | D = " + board.currentPiece.isRightBlocked+ " |");
         key = undefined;
     }
 
