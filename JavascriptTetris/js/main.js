@@ -141,11 +141,12 @@ function Board() {
         this.currentPiece._command = key;
 
 
-        if (this.currentPiece._command !== undefined) {
-            console.log("poop");
-   
-            this.checkCollision();
-        
+
+        this.checkCollision();
+
+        if (key !== undefined)
+        console.log("Checks__ S = " + board.currentPiece._isDownBlocked + " | A = " + board.currentPiece._isLeftBlocked + " | D = " + board.currentPiece._isRightBlocked + " | RL = " + board.currentPiece.isRotateLeftBlocked + " | RR = " + board.currentPiece.isRotateRightBlocked+ " |");
+
             if (this.currentPiece._command === "w") {
 
                 if (this.currentPiece._isDownBlocked === true) {
@@ -159,8 +160,13 @@ function Board() {
                 }
             }
             else {
-                this.currentPiece.move();
-                this.currentPiece.update();
+                if ((this.currentPiece._command === "s") && (this.currentPiece._isDownBlocked === true)) {
+                    this.setBoard();// 
+                }
+                else {
+                    this.currentPiece.move();
+                    this.currentPiece.update();
+                }
             }
        
 
@@ -168,7 +174,7 @@ function Board() {
             this.shiftStackLines();
 
 
-        }
+        
     }
     this.draw = function () {
 
@@ -254,13 +260,16 @@ function Board() {
     this.checkCollision = function () {
         //checks the collisions between  this._board[][] and _currentPiece._boardCheck[][]
         //then flags either 
-        this._isDownBlocked = false;
-        this._isLeftBlocked = false;
-        this._isRightBlocked = false;
-        this._isUpBlocked = false;
-        this.isRotateRightBlocked = false;
-        this.isRotateLeftBlocked = false;
-      
+
+        this.currentPiece._isDownBlocked = false;
+        this.currentPiece._isLeftBlocked = false;
+        this.currentPiece._isRightBlocked = false;
+        this.currentPiece._isUpBlocked = false;
+        this.currentPiece.isRotateRightBlocked = false;
+        this.currentPiece.isRotateLeftBlocked = false;
+
+        if (this.currentPiece._command !== undefined) {
+
             switch (this.currentPiece._pieceType) {
                 case "I":
                     this.checkCollisionI();
@@ -286,6 +295,7 @@ function Board() {
             }
 
         }
+    }
     this.checkCollisionI = function() {
         let xpos = this.currentPiece._xPosition;
         let ypos = this.currentPiece._yPosition;
@@ -299,8 +309,16 @@ function Board() {
                         }
                         break;
                     case "a":
+                        if (this._board[xpos - 2][ypos] !== "empty" ) {
+                            this.currentPiece._isLeftBlocked = true;
+                            return;
+                        }
                         break;
                     case "d":
+                        if (this._board[xpos +3][ypos] !== "empty" ) {
+                            this.currentPiece._isRightBlocked = true;
+                            return;
+                        }
                         break;
                     case "w":
                         if ((this._board[xpos][ypos + 1] !== "empty") || (this._board[xpos - 1][ypos + 1] !== "empty") || (this._board[xpos + 1][ypos + 1] !== "empty") || (this._board[xpos + 2][ypos + 1] !== "empty")) {
@@ -309,8 +327,16 @@ function Board() {
                         }
                         break;
                     case "k":
+                        if ((this._board[xpos + 1][ypos - 1] !== "empty")|| (this._board[xpos + 1][ypos - 2] !== "empty") || (this._board[xpos + 1][ypos + 1] !== "empty")) {
+                            this.currentPiece.isRotateLeftBlocked = true;
+                            this.currentPiece.isRotateRightBlocked = true;
+                        }
                         break;
                     case "j":
+                        if ((this._board[xpos + 1][ypos - 1] !== "empty") || (this._board[xpos + 1][ypos - 2] !== "empty") || (this._board[xpos + 1][ypos + 1] !== "empty")) {
+                            this.currentPiece.isRotateLeftBlocked = true;
+                            this.currentPiece.isRotateRightBlocked = true;
+                        }
                         break;
                 }
                 break;
@@ -324,8 +350,16 @@ function Board() {
                         }
                         break;
                     case "a":
+                        if ((this._board[xpos][ypos] !== "empty") || (this._board[xpos][ypos-1] !== "empty") || (this._board[xpos][ypos-2] !== "empty") || (this._board[xpos][ypos+1] !== "empty")) {
+                            this.currentPiece._isLeftBlocked = true;
+                            return;
+                        }
                         break;
                     case "d":
+                        if ((this._board[xpos + 2][ypos] !== "empty") || (this._board[xpos + 2][ypos - 1] !== "empty") || (this._board[xpos + 2][ypos - 2] !== "empty") || (this._board[xpos + 2][ypos + 1] !== "empty")) {
+                            this.currentPiece._isRightBlocked = true;
+                            return;
+                        }
                         break;
                     case "w":
                         if ((this._board[xpos + 1][ypos + 2] !== "empty")) {
@@ -334,8 +368,16 @@ function Board() {
                         }
                         break;
                     case "k":
+                        if ((this._board[xpos][ypos] !== "empty") || (this._board[xpos - 1][ypos] !== "empty") || (this._board[xpos + 2][ypos] !== "empty")) {
+                            this.currentPiece.isRotateLeftBlocked = true;
+                            this.currentPiece.isRotateRightBlocked = true;
+                        }
                         break;
                     case "j":
+                        if ((this._board[xpos][ypos] !== "empty") || (this._board[xpos - 1][ypos] !== "empty") || (this._board[xpos + 2][ypos] !== "empty")) {
+                            this.currentPiece.isRotateLeftBlocked = true;
+                            this.currentPiece.isRotateRightBlocked = true;
+                        }
                         break;
                 }
                 break;
@@ -1008,7 +1050,7 @@ function Piece() {
         this._xPosition = 5;
         this._yPosition = 3;// og3
         this._rotation = 0;
-       //num = 3;
+        num = 0;
 
 
         if (this._xPosition < 3) {
@@ -1481,9 +1523,8 @@ function mainloop() {
     totalframes++;
 
     if (key === "p") {
-        for (let i = 0; i < board._gridHeight-1; i++) {
-
-        }
+        console.log("Checks__ S = " + board.currentPiece._isDownBlocked + " | A = " + board.currentPiece._isLeftBlocked + " | D = " + board.currentPiece._isRightBlocked+ " |");
+        key = undefined;
     }
 
     c.clearRect(0, 0, canvas.width, canvas.height);
