@@ -1127,7 +1127,7 @@ function Piece() {
     
 
         //reset current command
-        num = 6;
+        //num = 6;
 
         this._command = undefined;
 
