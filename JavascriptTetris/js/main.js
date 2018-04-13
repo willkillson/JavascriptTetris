@@ -403,8 +403,14 @@ function Board() {
                         }
                         break;
                     case "a":
+                        if ((this._board[xpos - 2][ypos] !== "empty") || (this._board[xpos - 1][ypos+1] !== "empty")) {
+                            this.currentPiece._isLeftBlocked = true;
+                        }
                         break;
                     case "d":
+                        if ((this._board[xpos + 2 ][ypos] !== "empty") || (this._board[xpos +1][ypos + 1] !== "empty")) {
+                            this.currentPiece._isRightBlocked = true;
+                        }
                         break;
                     case "w":
                         if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos - 1][ypos + 1] !== "empty") || (this._board[xpos + 1][ypos + 1] !== "empty")) {
@@ -413,8 +419,15 @@ function Board() {
                         }
                         break;
                     case "k":
+                        if ((this._board[xpos][ypos + 1] !== "empty")) {
+                            this.currentPiece.isRotateRightBlocked = true;
+                            this.currentPiece.isRotateLeftBlocked = true;
+                        }
                         break;
                     case "j":
+                        if ((this._board[xpos][ypos + 1] !== "empty")) {
+                            this.currentPiece.isRotateLeftBlocked = true;
+                        }
                         break;
                 }
                 break;
@@ -428,8 +441,14 @@ function Board() {
                         }
                         break;
                     case "a":
+                        if ((this._board[xpos - 2][ypos] !== "empty") || (this._board[xpos - 1][ypos + 1] !== "empty") || (this._board[xpos - 1][ypos - 1] !== "empty")) {
+                            this.currentPiece._isLeftBlocked = true;
+                        }
                         break;
                     case "d":
+                        if ((this._board[xpos+1][ypos] !== "empty") || (this._board[xpos + 1][ypos + 1] !== "empty") || (this._board[xpos + 1][ypos - 1] !== "empty")) {
+                            this.currentPiece._isRightBlocked = true;
+                        }
                         break;
                     case "w":
                         if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos - 1][ypos + 1] !== "empty")) {
@@ -453,8 +472,16 @@ function Board() {
                         }
                         break;
                     case "a":
+                        if ((this._board[xpos-1][ypos] !== "empty") || (this._board[xpos - 2][ypos + 1] !== "empty")) {
+                            this.currentPiece._isLeftBlocked = true;
+           
+                        }
                         break;
                     case "d":
+                        if ((this._board[xpos + 1][ypos] !== "empty") || (this._board[xpos + 2][ypos + 1] !== "empty")) {
+                            this.currentPiece._isRightBlocked = true;
+
+                        }
                         break;
                     case "w":
                         if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos - 1][ypos + 2] !== "empty") || (this._board[xpos + 1][ypos + 2] !== "empty")) {
@@ -478,8 +505,14 @@ function Board() {
                         }
                         break;
                     case "a":
+                        if ((this._board[xpos - 1][ypos] !== "empty") || (this._board[xpos - 1][ypos - 1] !== "empty") || (this._board[xpos - 1][ypos +1] !== "empty")) {
+                            this.currentPiece._isLeftBlocked = true;
+                        }
                         break;
                     case "d":
+                        if ((this._board[xpos +2][ypos] !== "empty") || (this._board[xpos +1][ypos - 1] !== "empty") || (this._board[xpos + 1][ypos + 1] !== "empty")) {
+                            this.currentPiece._isRightBlocked = true;
+                        }
                         break;
                     case "w":
                         if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos + 1][ypos + 1] !== "empty")) {
@@ -961,8 +994,6 @@ function Board() {
 
 
     }
-
-
 }
 function Piece() {
     this._gridHeight = GRIDHEIGHT;//og25
@@ -1050,7 +1081,7 @@ function Piece() {
         this._xPosition = 5;
         this._yPosition = 3;// og3
         this._rotation = 0;
-        num = 0;
+        num = 1;
 
 
         if (this._xPosition < 3) {
@@ -1148,7 +1179,7 @@ function Piece() {
                     }
                     break;
                 case "k":
-                    if (this.isRotateLeftBlocked === false) {
+                    if (this.isRotateRightBlocked === false) {
                         this.moveRotate("right");
                     }
                     break;
