@@ -803,8 +803,14 @@ function Board() {
                         }
                         break;
                     case "a":
+                        if ((this._board[xpos - 1][ypos] !== "empty") || (this._board[xpos - 2][ypos + 1] !== "empty")) {
+                            this.currentPiece.isLeftBlocked = true;
+                        }
                         break;
                     case "d":
+                        if ((this._board[xpos + 2][ypos] !== "empty") || (this._board[xpos + 1][ypos + 1] !== "empty")) {
+                            this.currentPiece.isRightBlocked = true;
+                        }
                         break;
                     case "w":
                         if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos - 1][ypos + 2] !== "empty") || (this._board[xpos + 1][ypos + 1] !== "empty")) {
@@ -824,12 +830,17 @@ function Board() {
 
                         if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos - 1][ypos + 1] !== "empty")) {
                            this.currentPiece.isDownBlocked = true;
-                            return;
                         }
                         break;
                     case "a":
+                        if ((this._board[xpos - 2][ypos] !== "empty") || (this._board[xpos - 2][ypos - 1] !== "empty") || (this._board[xpos - 1][ypos + 1] !== "empty")) {
+                            this.currentPiece.isLeftBlocked = true;
+                        }
                         break;
                     case "d":
+                        if ((this._board[xpos +1][ypos] !== "empty") || (this._board[xpos +1][ypos + 1] !== "empty") || (this._board[xpos][ypos - 1] !== "empty")) {
+                            this.currentPiece.isRightBlocked = true;
+                        }
                         break;
                     case "w":
                         if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos - 1][ypos + 1] !== "empty")) {
@@ -860,8 +871,14 @@ function Board() {
                         }
                         break;
                     case "a":
+                        if ((this._board[xpos - 2][ypos] !== "empty") || (this._board[xpos - 1][ypos + 1] !== "empty")) {
+                            this.currentPiece.isLeftBlocked = true;
+                        }
                         break;
                     case "d":
+                        if ((this._board[xpos + 1][ypos] !== "empty") || (this._board[xpos +2][ypos + 1] !== "empty")) {
+                            this.currentPiece.isRightBlocked = true;
+                        }
                         break;
                     case "w":
                         if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos - 1][ypos + 1] !== "empty") || (this._board[xpos + 1][ypos + 2] !== "empty")) {
@@ -879,18 +896,24 @@ function Board() {
                 switch (this.currentPiece._command) {//commands
                     case "s":
 
-                        if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos +1][ypos] !== "empty")) {
+                        if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos +1][ypos+1] !== "empty")) {
                            this.currentPiece.isDownBlocked = true;
                             return;
                         }
                         break;
                     case "a":
+                        if ((this._board[xpos - 1][ypos] !== "empty") || (this._board[xpos][ypos - 1] !== "empty") || (this._board[xpos - 1][ypos + 1] !== "empty")) {
+                            this.currentPiece.isLeftBlocked = true;
+                        }
                         break;
                     case "d":
+                        if ((this._board[xpos +2][ypos] !== "empty") || (this._board[xpos+2][ypos - 1] !== "empty") || (this._board[xpos +1][ypos + 1] !== "empty")) {
+                            this.currentPiece.isRightBlocked = true;
+                        }
                         break;
                     case "w":
-                        if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos + 1][ypos] !== "empty")) {
-                           this.currentPiece.isDownBlocked = true;
+                        if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos + 1][ypos + 1] !== "empty")) {
+                            this.currentPiece.isDownBlocked = true;
                             return;
                         }
                         break;
@@ -917,8 +940,15 @@ function Board() {
                         }
                         break;
                     case "a":
+                        if ((this._board[xpos - 1][ypos] !== "empty") || (this._board[xpos - 1][ypos + 1] !== "empty")) {
+                            this.currentPiece.isLeftBlocked = true;
+                        }
+
                         break;
                     case "d":
+                        if ((this._board[xpos +2][ypos] !== "empty") || (this._board[xpos +2][ypos + 1] !== "empty")) {
+                            this.currentPiece.isRightBlocked = true;
+                        }
                         break;
                     case "w":
                         if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos + 1][ypos + 2] !== "empty")) {
@@ -937,17 +967,24 @@ function Board() {
                     case "s":
 
                         if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos + 1][ypos + 2] !== "empty")) {
-                           this.currentPiece.isDownBlocked = true;
+                            this.currentPiece.isDownBlocked = true;
                             return;
                         }
                         break;
                     case "a":
+                        if ((this._board[xpos - 1][ypos] !== "empty") || (this._board[xpos - 1][ypos + 1] !== "empty")) {
+                            this.currentPiece.isLeftBlocked = true;
+                        }
+
                         break;
                     case "d":
+                        if ((this._board[xpos + 2][ypos] !== "empty") || (this._board[xpos + 2][ypos + 1] !== "empty")) {
+                            this.currentPiece.isRightBlocked = true;
+                        }
                         break;
                     case "w":
                         if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos + 1][ypos + 2] !== "empty")) {
-                           this.currentPiece.isDownBlocked = true;
+                            this.currentPiece.isDownBlocked = true;
                             return;
                         }
                         break;
@@ -1090,7 +1127,7 @@ function Piece() {
     
 
         //reset current command
-        num = 3;
+        num = 6;
 
         this._command = undefined;
 
