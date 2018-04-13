@@ -672,8 +672,14 @@ function Board() {
                         }
                         break;
                     case "a":
+                        if ((this._board[xpos - 2][ypos] !== "empty") || (this._board[xpos][ypos + 1] !== "empty")) {
+                            this.currentPiece.isLeftBlocked = true;
+                        }
                         break;
                     case "d":
+                        if ((this._board[xpos +2][ypos] !== "empty") || (this._board[xpos+2][ypos + 1] !== "empty")) {
+                            this.currentPiece.isRightBlocked = true;
+                        }
                         break;
                     case "w":
                         if ((this._board[xpos][ypos + 1] !== "empty") || (this._board[xpos - 1][ypos + 1] !== "empty") || (this._board[xpos + 1][ypos + 2] !== "empty")) {
@@ -697,8 +703,15 @@ function Board() {
                         }
                         break;
                     case "a":
+                        if ((this._board[xpos - 1][ypos] !== "empty") || (this._board[xpos - 1][ypos - 1] !== "empty") || (this._board[xpos - 2][ypos + 1] !== "empty")) {
+                            this.currentPiece.isLeftBlocked = true;
+                        }
                         break;
                     case "d":
+                        if ((this._board[xpos + 1][ypos] !== "empty") || (this._board[xpos + 1][ypos + 1] !== "empty") || (this._board[xpos + 1][ypos - 1] !== "empty")) {
+                            this.currentPiece.isRightBlocked = true;
+                        }
+
                         break;
                     case "w":
                         if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos - 1][ypos + 2] !== "empty")) {
@@ -718,12 +731,17 @@ function Board() {
 
                         if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos - 1][ypos + 2] !== "empty") || (this._board[xpos + 1][ypos + 2] !== "empty")) {
                            this.currentPiece.isDownBlocked = true;
-                            return;
                         }
                         break;
                     case "a":
+                        if ((this._board[xpos - 2][ypos] !== "empty") || (this._board[xpos - 2][ypos + 1] !== "empty")) {
+                            this.currentPiece.isLeftBlocked = true;
+                        }
                         break;
                     case "d":
+                        if ((this._board[xpos][ypos] !== "empty") || (this._board[xpos + 2][ypos + 1] !== "empty")) {
+                            this.currentPiece.isRightBlocked = true;
+                        }
                         break;
                     case "w":
                         if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos - 1][ypos + 2] !== "empty") || (this._board[xpos + 1][ypos + 2] !== "empty")) {
@@ -747,8 +765,14 @@ function Board() {
                         }
                         break;
                     case "a":
+                        if ((this._board[xpos - 1][ypos] !== "empty") || (this._board[xpos - 1][ypos + 1] !== "empty") || (this._board[xpos - 1][ypos - 1] !== "empty")) {
+                            this.currentPiece.isLeftBlocked = true;
+                        }
                         break;
                     case "d":
+                        if ((this._board[xpos + 1][ypos] !== "empty") || (this._board[xpos + 1][ypos + 1] !== "empty") || (this._board[xpos + 2][ypos - 1] !== "empty")) {
+                            this.currentPiece.isRightBlocked = true;
+                        }
                         break;
                     case "w":
                         if ((this._board[xpos][ypos + 2] !== "empty") || (this._board[xpos + 1][ypos] !== "empty")) {
@@ -1066,6 +1090,8 @@ function Piece() {
     
 
         //reset current command
+        num = 3;
+
         this._command = undefined;
 
         switch (num) {////////////testing rotations
@@ -1100,7 +1126,7 @@ function Piece() {
         this._xPosition = 5;
         this._yPosition = 3;// og3
         this.rotation = 0;
-        num = 2;
+
 
 
         if (this._xPosition < 3) {
@@ -1609,3 +1635,7 @@ function mainloop() {
 }
 
 requestAnimationFrame(mainloop);
+
+var correct = new Array(3);
+
+console.log(correct.length);
