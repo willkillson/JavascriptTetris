@@ -1219,7 +1219,7 @@ function Piece() {
     
 
         //reset current command
-        num = 5;
+        //num = 5;
 
         this._command = undefined;
 
