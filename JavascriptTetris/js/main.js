@@ -967,9 +967,14 @@ function Board() {
                         }
                         break;
                     case "k":
-   
+                        if ((this._board[xpos +1][ypos] !== "empty") || (this._board[xpos + 1][ypos-1] !== "empty")) {
+                            this.currentPiece.isRotateRightBlocked = true;
+                        }
                         break;
                     case "j":
+                        if ((this._board[xpos + 1][ypos] !== "empty") || (this._board[xpos + 1][ypos - 1] !== "empty")) {
+                            this.currentPiece.isRotateLeftBlocked = true;
+                        }
                         break;
                 }
                 break;
@@ -999,8 +1004,14 @@ function Board() {
                         }
                         break;
                     case "k":
+                        if ((this._board[xpos + 1][ypos] !== "empty") || (this._board[xpos - 1][ypos + 1] !== "empty")) {
+                            this.currentPiece.isRotateRightBlocked = true;
+                        }
                         break;
                     case "j":
+                        if ((this._board[xpos + 1][ypos] !== "empty") || (this._board[xpos - 1][ypos + 1] !== "empty")) {
+                            this.currentPiece.isRotateLeftBlocked = true;
+                        }
                         break;
                 }
                 break;
