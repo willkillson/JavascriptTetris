@@ -4,6 +4,7 @@
 
 // Your code here!
 var canvas = document.querySelector('canvas');
+var scoreboard = document.getElementById("score");
 
 canvas.width = 600;
 canvas.height = 800;
@@ -104,6 +105,9 @@ function Board() {
     this.currentPiece = undefined;
     //this.command = "s";//d,l,r,rr,rl,u
     this.score = 0;
+    this._nextPiece = undefined;
+
+
 
 
     this.init = function () {
@@ -130,13 +134,16 @@ function Board() {
 
         this.currentPiece = new Piece();
         this.currentPiece.init();
-        this.currentPiece.generateNewPiece();
+        this._nextPiece = this.currentPiece.genNextPiece();
+        this.currentPiece.generateNewPiece(this._nextPiece);
+        this._nextPiece = this.currentPiece.genNextPiece();
 
     }
     this.update = function () {
 
         if (this.currentPiece._isSet === true) {
-            this.currentPiece.generateNewPiece();
+            this.currentPiece.generateNewPiece(this._nextPiece);
+            this._nextPiece = this.currentPiece.genNextPiece();
         }
         this.currentPiece._command = key;
 
@@ -242,6 +249,8 @@ function Board() {
 
 
                 c.fillRect(i * this._cellSize + this._cellPadding * i, j * this._cellSize + j * this._cellPadding, this._cellSize, this._cellSize);
+
+
                 c.stroke();
 
 
@@ -254,6 +263,69 @@ function Board() {
 
 
 
+
+
+        //////////////////////next piece
+        c.beginPath();
+        console.log(this._nextPiece);
+
+        switch (this._nextPiece) {
+            case 0:
+                c.fillStyle = red;
+
+                c.fillRect(475, 100 + this._cellSize, this._cellSize, this._cellSize);
+                c.fillRect(475, 100, this._cellSize, this._cellSize);
+                c.fillRect(475, 100 + this._cellSize * 2, this._cellSize, this._cellSize);
+                c.fillRect(475, 100 + this._cellSize * 3, this._cellSize, this._cellSize);
+                break;
+            case 1: 
+                c.fillStyle = teal;
+                c.fillRect(475, 100, this._cellSize, this._cellSize);
+                c.fillRect(475 - this._cellSize, 100, this._cellSize, this._cellSize);
+                c.fillRect(475 + this._cellSize, 100, this._cellSize, this._cellSize);
+                c.fillRect(475, 100 + this._cellSize, this._cellSize, this._cellSize);
+                break;
+            case 2:
+                c.fillStyle = orange;
+                c.fillRect(475, 100, this._cellSize, this._cellSize);
+                c.fillRect(475 - this._cellSize, 100, this._cellSize, this._cellSize);
+                c.fillRect(475 + this._cellSize, 100, this._cellSize, this._cellSize);
+                c.fillRect(475 - this._cellSize, 100 + this._cellSize, this._cellSize, this._cellSize);
+                break;
+            case 3:
+                c.fillStyle = blue;
+                c.fillRect(475, 100, this._cellSize, this._cellSize);
+                c.fillRect(475 - this._cellSize, 100, this._cellSize, this._cellSize);
+                c.fillRect(475 + this._cellSize, 100, this._cellSize, this._cellSize);
+                c.fillRect(475 + this._cellSize, 100 + this._cellSize, this._cellSize, this._cellSize);
+                break;
+            case 4:
+                c.fillStyle = purple;
+                c.fillRect(475, 100, this._cellSize, this._cellSize);
+                c.fillRect(475, 100 + this._cellSize, this._cellSize, this._cellSize);
+                c.fillRect(475 - this._cellSize, 100 + this._cellSize, this._cellSize, this._cellSize);
+                c.fillRect(475 + this._cellSize, 100, this._cellSize, this._cellSize);
+    
+                break;
+            case 5:
+                c.fillStyle = green;
+                c.fillRect(475, 100, this._cellSize, this._cellSize);
+                c.fillRect(475 - this._cellSize, 100, this._cellSize, this._cellSize);
+                c.fillRect(475, 100 + this._cellSize, this._cellSize, this._cellSize);
+                c.fillRect(475 + this._cellSize, 100 + this._cellSize, this._cellSize, this._cellSize);
+
+                break;
+            case 6:
+                c.fillStyle = yellow;
+                c.fillRect(475, 100, this._cellSize, this._cellSize);
+                c.fillRect(475 - this._cellSize, 100, this._cellSize, this._cellSize);
+                c.fillRect(475, 100 - this._cellSize, this._cellSize, this._cellSize);
+                c.fillRect(475 - this._cellSize, 100 - this._cellSize, this._cellSize, this._cellSize);
+                break;
+
+        }
+ 
+        c.stroke();
 
     }
 
@@ -1194,10 +1266,12 @@ function Piece() {
             this._boardCheck[i] = new Array(this._gridHeight);
         }
     }
-    this.generateNewPiece = function () {
+    this.genNextPiece = function () {
         let num = Math.floor(7 * Math.random());
-        
-
+        return num;
+    }
+    this.generateNewPiece = function (num) {
+      
         for (let i = 0; i < this._gridWidth; i++) {
             //////board set up
             //assigns whole _board array with empty
@@ -1322,6 +1396,7 @@ function Piece() {
 
         this._command = undefined;
     }
+    
 
     this.move = function () {
             this._boardCheck = clearBoard(this._boardCheck);
@@ -1757,6 +1832,8 @@ function mainloop() {
 
     key = undefined;
 
+
+    scoreboard.innerText = score;
     requestAnimationFrame(mainloop);
 }
 
