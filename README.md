@@ -7,7 +7,7 @@ https://willkillson.github.io/JavascriptTetris/JavascriptTetris/index.html
 MoveLeft - a  
 
 
-MoveRight - d
+MoveRight - d 
 MoveDown - s
 
 InstanceDrop - w
