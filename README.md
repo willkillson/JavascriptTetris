@@ -6,12 +6,14 @@ https://willkillson.github.io/JavascriptTetris/JavascriptTetris/index.html
 
 MoveLeft - a  
 
+MoveRight - d   
 
-MoveRight - d 
-MoveDown - s
+MoveDown - s    
 
-InstanceDrop - w
+InstanceDrop - w    
 
-RotateLeft - j
-RotateRight - k
+RotateLeft - j    
+
+RotateRight - k   
+
 
