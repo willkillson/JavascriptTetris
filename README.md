@@ -4,7 +4,9 @@
 https://willkillson.github.io/JavascriptTetris/JavascriptTetris/index.html
 
 
-MoveLeft - a
+MoveLeft - a  
+
+
 MoveRight - d
 MoveDown - s
 
